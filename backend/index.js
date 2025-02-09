@@ -7,6 +7,7 @@ import productRouter from "./routes/productRoutes.js"
 import userRouter from "./routes/userRoutes.js"
 import addessRouter from "./routes/addressroutes.js"
 import reviewRouter from "./routes/reviewRoutes.js"
+import cartRouter from "./routes/cartRoutes.js"
 
 //app config
 
@@ -24,6 +25,7 @@ app.use('/api/product', productRouter);
 app.use('/api/user', userRouter);
 app.use('/api/address', addessRouter);
 app.use('/api/review', reviewRouter);
+app.use('/api/cart', cartRouter);
 
 app.get('/', (req, res) => {
   res.send("API WORKING");

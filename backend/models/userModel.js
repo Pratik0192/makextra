@@ -6,12 +6,7 @@ const UserSchema = new mongoose.Schema({
   password: { type: String, required: true },
   mobile_number: { type: String, required: true },
   role: { type: String, enum: ["user", "admin"], default: "user" }, // User roles
-  cartData: [
-    {
-      product_id: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
-      quantity: { type: Number, required: true }
-    }
-  ]
+  cartData: {type: Object, default: {}}
 },{
   timestamps : true
 });

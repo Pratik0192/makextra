@@ -7,6 +7,7 @@ export const ShopContext = createContext();
 
 const ShopContextProvider = (props) => {
   const currency = '₹';
+  const delivery_Fee = 50;
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const [search, setSearch] = useState("");
   const [cartItems, setCartItems] = useState({});
@@ -23,9 +24,9 @@ const ShopContextProvider = (props) => {
 
     try {
       const response = await axios.post(
-        backendUrl + '/api/user/cart/add',
-        { product_id, quantity },
-        { headers: { Authorization: `Bearer ${token}` } }
+        backendUrl + "/api/cart/add",
+      { userId: token, itemId: product_id, quantity },  // Pass userId
+      { headers: { token } }
       );
 
       if(response.data.success) {
@@ -41,27 +42,25 @@ const ShopContextProvider = (props) => {
 
   const getCartCount = () => {
     let totalCount = 0;
-    for(const items in cartItems) {
-      for(const item in cartItems[items]) {
-        try {
-          if(cartItems[items][item] > 0) {
-            totalCount += cartItems[items][item];
-          }
-        } catch (error) {
-          
-        }
-      }
+
+    for (const itemId in cartItems) {
+      totalCount += cartItems[itemId]; // Directly add quantity
     }
+
     return totalCount;
   }
 
   const getCartAmount = () => {
-    return products.reduce((total, product) => {
-      if (cartItems[product._id]) {
-        total += product.price * cartItems[product._id];
+    let totalAmount = 0;
+
+    for (const itemId in cartItems) {
+      let itemInfo = products.find((product) => product._id === itemId);
+      if (itemInfo) {
+        totalAmount += itemInfo.discounted_price * cartItems[itemId]; 
       }
-      return total;
-    }, 0);
+    }
+
+    return totalAmount;
   }
 
   const getProductsData = async() => {
@@ -81,44 +80,39 @@ const ShopContextProvider = (props) => {
     }
   }
 
-  const getUserCart = async(authToken) => {
+  const getUserCart = async(token) => {
     try {
-      const response = await axios.get(backendUrl + '/api/user/cart/get', {
-        headers: { Authorization : `Bearer ${authToken || token}` },
-      })
-
+      const response = await axios.post(
+        backendUrl + '/api/cart/get',
+        { userId: token },
+        {headers: {token}}
+      )
       if(response.data.success) {
-        setCartItems(response.data.cart);
-        console.log("fetched Cart data", response.data.cart);
-      } else {
-        console.log("error fetching cart:", response.data.message);
+        setCartItems(response.data.cartData)
       }
-    } catch (error) {
-      console.error("error fetching the cart items", error)
+    } catch (error) { 
+      console.log(error);
     }
   };
 
-  const removefromCart = async(product_id) => {
-    if(!token) {
-      toast.error("please log in to remove items from the cart");
-      navigate('/login');
-      return;
-    }
-
-    try {
-      const response = await axios.post(
-        backendUrl + "/api/user/cart/remove",
-        {product_id},
-        {headers: {Authorization: `Bearer ${token}`}}
-      );
-      if(response.data.success) {
-        setCartItems((prevCart) => prevCart.filter((item) => item.product_id !== product_id));
-        toast.success("Product removed from the cart");
-      } else {
-        toast.error(response.data.message);
+  const updateQuantity = async(itemId, quantity) => {
+    if (token) {
+      try {
+        const response = await axios.post(
+          backendUrl + "/api/cart/update",
+          { userId: token, itemId, quantity },
+          { headers: { token } }
+        );
+  
+        if (response.data.success) {
+          setCartItems(response.data.cartData); // Update state after successful update
+        } else {
+          toast.error("Failed to update cart");
+        }
+      } catch (error) {
+        console.log(error);
+        toast.error("Error updating cart");
       }
-    } catch (error) {
-      console.error("Error removing item from cart:", error);
     }
   }
 
@@ -136,11 +130,12 @@ const ShopContextProvider = (props) => {
   const value = {
     products, currency,
     search, setSearch,
-    cartItems, addToCart, setCartItems,
-    getCartCount, getCartAmount, removefromCart,
+    cartItems, addToCart, setCartItems, updateQuantity,
+    getCartCount, getCartAmount,
     navigate,
     backendUrl,
-    token, setToken
+    token, setToken,
+    delivery_Fee
   }
 
   return (
