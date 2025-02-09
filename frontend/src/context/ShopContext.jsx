@@ -56,7 +56,12 @@ const ShopContextProvider = (props) => {
   }
 
   const getCartAmount = () => {
-    return 0;
+    return products.reduce((total, product) => {
+      if (cartItems[product._id]) {
+        total += product.price * cartItems[product._id];
+      }
+      return total;
+    }, 0);
   }
 
   const getProductsData = async() => {
