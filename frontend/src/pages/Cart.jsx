@@ -29,40 +29,45 @@ const Cart = () => {
             return (
               <div key={index} className="py-4 border-b-2 border-gray-200 text-gray-700 grid grid-cols-[4fr_0.5fr_0.5fr] sm:grid-cols-[4fr_2fr_0.5fr] items-center gap-4">
                 <div className="flex items-start gap-6">
-                  <img className='w-16 sm:w-20' src={productData.images[0]} alt="" />
+                  <img className='w-16 sm:w-30' src={productData.images[0]} alt="" />
                   <div>
-                    <p className="text-xs sm:text-lg font-medium">{productData.name}</p>
+                    <p className="text-xs md:text-sm font-medium">{productData.name}</p>
                     <div className="flex items-center gap-5 mt-2">
-                      <p>{currency}{productData.discounted_price}</p>
+                      <p className='text-gray-500'>{currency} {productData.discounted_price}</p>
                     </div>
                   </div>
                 </div>
-                <input 
-                  type="number"
-                  min={1}
-                  value={item.quantity}
-                  onChange={(e) => {
-                    const newQuantity = Number(e.target.value);
-                    if (newQuantity > 0) {
-                      setCartData((prev) =>
-                        prev.map((cartItem) =>
-                          cartItem._id === item._id ? { ...cartItem, quantity: newQuantity } : cartItem
-                        )
-                      );
-                      updateQuantity(item._id, newQuantity);
-                    }
-                  }}
-                  className="border max-w-10 sm:max-w-20 px-1 sm:px-2 py-1"
-                />
-                <img 
-                  onClick={() => {
-                    setCartData((prev) => prev.filter((cartItem) => cartItem._id !== item._id));
-                    updateQuantity(item._id, 0);
-                  }}
-                  className='w-4 mr-4 sm:w-5 cursor-pointer' 
-                  src={bin_icon} 
-                  alt="" 
-                />
+                <div className='flex gap-3'>
+                  <input 
+                    type="number"
+                    min={1}
+                    value={item.quantity}
+                    onChange={(e) => {
+                      const newQuantity = Number(e.target.value);
+                      if (newQuantity > 0) {
+                        setCartData((prev) =>
+                          prev.map((cartItem) =>
+                            cartItem._id === item._id ? { ...cartItem, quantity: newQuantity } : cartItem
+                          )
+                        );
+                        updateQuantity(item._id, newQuantity);
+                      }
+                    }}
+                    className="border max-w-10 sm:max-w-20 px-1 sm:px-2 py-1"
+                  />
+                  <img 
+                    onClick={() => {
+                      setCartData((prev) => prev.filter((cartItem) => cartItem._id !== item._id));
+                      updateQuantity(item._id, 0);
+                    }}
+                    className='w-2.5 mr-4 sm:w-5 cursor-pointer' 
+                    src={bin_icon} 
+                    alt="" 
+                  />
+                </div>
+                <div className="">
+                  <p>{currency} {productData.discounted_price}</p>
+                </div>
               </div>
             )
           })
