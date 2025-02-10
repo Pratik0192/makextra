@@ -2,7 +2,7 @@ import React from 'react'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import TopOffers from './components/TopOffers'
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, useLocation } from 'react-router-dom'
 import Home from './pages/Home'
 import Products from './pages/Products'
 import Cart from './pages/Cart'
@@ -19,15 +19,20 @@ import ShippingPolicy from './pages/ShippingPolicy'
 import Service from './components/Service'
 import Login from './pages/Login'
 import Register from './pages/Register'
+import Checkout from './pages/Checkout'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 const App = () => {
+
+  const location = useLocation();
+  const hideLayout = location.pathname === '/checkout';
+
   return (
     <div>
       <ToastContainer />
-      <TopOffers />
-      <Navbar />
+      { !hideLayout && <TopOffers /> }
+      { !hideLayout && <Navbar />}
       <Routes>
         <Route path='/' element={ <Home /> } />
         <Route path='/products' element={ <Products /> } />
@@ -45,8 +50,9 @@ const App = () => {
         <Route path='/service' element={ <Service /> } />
         <Route path='/login' element={ <Login /> } />
         <Route path='/register' element={ <Register /> } />
+        <Route path='/checkout' element={<Checkout />} />
       </Routes>
-      <Footer />
+      {!hideLayout && <Footer />}
     </div>
   )
 }

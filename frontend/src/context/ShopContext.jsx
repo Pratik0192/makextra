@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom"
 export const ShopContext = createContext();
 
 const ShopContextProvider = (props) => {
-  const currency = '₹';
+  const currency = 'Rs.';
   const delivery_Fee = 50;
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const [search, setSearch] = useState("");
@@ -116,6 +116,11 @@ const ShopContextProvider = (props) => {
     }
   }
 
+  const calculateTaxPercentage = (cartTotal) => {
+    const taxRate = 15.26 / 100;
+    return cartTotal * taxRate;
+  }
+
   useEffect(() => {
     getProductsData(); // Fetch products when the app starts
   }, []);
@@ -135,7 +140,8 @@ const ShopContextProvider = (props) => {
     navigate,
     backendUrl,
     token, setToken,
-    delivery_Fee
+    delivery_Fee,
+    calculateTaxPercentage
   }
 
   return (

@@ -2,10 +2,10 @@ import React, { useContext, useEffect, useState } from 'react';
 import { ShopContext } from '../context/ShopContext';
 import Title from '../components/Title';
 import bin_icon from '../assets/bin_icon.png'
-import CartAmount from '../components/CartAmount';
+import { Link } from 'react-router-dom';
 
 const Cart = () => {
-  const { products, currency, cartItems, navigate, updateQuantity } = useContext(ShopContext);
+  const { products, currency, cartItems, navigate, updateQuantity, getCartAmount } = useContext(ShopContext);
   const [cartData, setCartData] = useState([]);
   
   useEffect(() => {
@@ -19,8 +19,11 @@ const Cart = () => {
 
   return (
     <div className="pt-10 px-2 sm:px-4 md:px-8 lg:px-16 xl:px-32 ">
-      <div className="">
-        <Title text={'Your Cart'} />
+      <div className="flex justify-between">
+        <h2 className='text-[#103948] text-2xl md:text-4xl font-medium mb-6'>Your Cart</h2>
+        <Link to='/'>
+          <p className='underline underline-offset-4 decoration-1'>Continue shopping</p>
+        </Link>
       </div>
       <div>
         {
@@ -74,16 +77,20 @@ const Cart = () => {
         }
       </div>
       <div className="flex justify-end my-20">
-        <div className="w-full sm:w-[450px]">
-          <CartAmount />
-          <div className="w-full text-end">
-            <button 
-              onClick={()=>navigate('/')} 
-              className='bg-[#DE3163] text-white text-sm my-8 px-8 py-3'
-            >
-              Proceed to Checkout
-            </button>
+        <div className="w-full sm:w-[380px]">
+          <div className='flex justify-center md:justify-end mb-4'>
+            <p className='text-[#103948] text-md font-medium mr-5'>Estimated total</p>
+            <p className='text-lg font-medium text-gray-600'>{currency} {getCartAmount()}.00</p>
           </div>
+          <p className='flex justify-center md:justify-end text-xs text-gray-500 font-medium'>Taxes included. Discounts and shipping calculated at </p>
+          <p className='flex justify-center md:justify-end text-xs text-gray-500 font-medium'>checkout.</p>
+          <button 
+            onClick={()=>navigate('/checkout')} 
+            className='bg-[#DE3163] text-white text-sm font-medium my-8 px-8 py-3 w-full rounded-md shadow-md cursor-pointer'
+          >
+            Check out
+          </button>
+          
         </div>
       </div>
     </div>
