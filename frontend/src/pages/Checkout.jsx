@@ -1,10 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { ShoppingBag } from "lucide-react"
 import { ShopContext } from '../context/ShopContext';
+import { toast } from 'react-toastify';
+import axios from 'axios';
 
 const Checkout = () => {
 
-  const { products, currency, cartItems, navigate, updateQuantity, getCartAmount, calculateTaxPercentage, token } = useContext(ShopContext);
+  const { products, cartItems, navigate, getCartAmount, calculateTaxPercentage, token, backendUrl, setCartItems } = useContext(ShopContext);
   const cartTotal = getCartAmount();
   const [ cartData, setCartData ] = useState([]);
 
@@ -20,6 +22,77 @@ const Checkout = () => {
     state: '',
     pinCode: ''
   })
+
+  const [billingFormData, setBillingFormData] = useState({
+    country: '',
+    firstName: '',
+    lastName: '',
+    address: '',
+    apartment: '',
+    city: '',
+    state: '',
+    pinCode: ''
+  });
+
+  const onChangeHandler = (event) => {
+    const name = event.target.name
+    const value = event.target.value
+
+    setFormData(data => ({...data, [name] : value}))
+  }
+
+  const onBillingChangeHandler = (event) => {
+    const { name, value } = event.target;
+    setBillingFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const onSubmitHandler = async(event) => {
+    event.preventDefault();
+    console.log("form submitted");
+    try {
+      
+      let orderItems = []
+
+      for (const productId in cartItems) {
+        const quantity = cartItems[productId]; // Get the quantity directly
+        if (quantity > 0) {
+          const itemInfo = structuredClone(products.find(product => product._id === productId));
+          if (itemInfo) {
+            itemInfo.quantity = quantity;
+            orderItems.push(itemInfo);
+          }
+        }
+      }
+
+      let orderData = {
+        userId: token,
+        shippingAddress: formData,
+        billingAddress: billingOption === "different" ? billingFormData : formData,
+        items: orderItems,
+        amount: getCartAmount(),
+        paymentType: paymentType
+      }
+
+      switch (paymentType) {
+        case 'cod':
+          const response = await axios.post(backendUrl + '/api/order/place', orderData,{headers: {token}})
+          console.log(response.data);
+          if(response.data.success) {
+            setCartItems({})
+          } else {
+            toast.error(response.data.message)
+          }
+          break;
+      
+        default:
+          break;
+      }
+
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message)
+    }
+  }
 
   useEffect(() => {
     console.log("Updated Cart Items:", cartItems);
@@ -48,17 +121,17 @@ const Checkout = () => {
         <div className='px-2'>
           <h2 className='text-xl font-semibold mt-4 mb-4'>Delivery</h2>
           <form className='flex flex-col gap-6 mb-6'>
-            <input type="text" placeholder='Country/Region' className='border-2 border-gray-300 p-3 rounded-md' />
+            <input required onChange={onChangeHandler} name='country' value={formData.country} type="text" placeholder='Country/Region' className='border-2 border-gray-300 p-3 rounded-md' />
             <div className='flex justify-between gap-3'>
-              <input type="text" placeholder='First name' className='border-2 border-gray-300 p-3 rounded-md w-full' />
-              <input type="text" placeholder='Last name' className='border-2 border-gray-300 p-3 rounded-md w-full' />
+              <input required onChange={onChangeHandler} name='firstName' value={formData.firstName} type="text" placeholder='First name' className='border-2 border-gray-300 p-3 rounded-md w-full' />
+              <input required onChange={onChangeHandler} name='lastName' value={formData.lastName} type="text" placeholder='Last name' className='border-2 border-gray-300 p-3 rounded-md w-full' />
             </div>
-            <input type="text" placeholder='Address' className='border-2 border-gray-300 p-3 rounded-md' />
-            <input type="text" placeholder='Apartment, suite, etc. (optional)' className='border-2 border-gray-300 p-3 rounded-md' />
+            <input required onChange={onChangeHandler} name='address' value={formData.address} type="text" placeholder='Address' className='border-2 border-gray-300 p-3 rounded-md' />
+            <input required onChange={onChangeHandler} name='apartment' value={formData.apartment} type="text" placeholder='Apartment, suite, etc. (optional)' className='border-2 border-gray-300 p-3 rounded-md' />
             <div className="flex justify-between gap-3">
-              <input type="text" placeholder='City' className='border-2 border-gray-300 p-3 rounded-md w-full' />
-              <input type="text" placeholder='State' className='border-2 border-gray-300 p-3 rounded-md w-full' />
-              <input type="number" placeholder='PIN code' className='border-2 border-gray-300 p-3 rounded-md w-full' />
+              <input required onChange={onChangeHandler} name='city' value={formData.city} type="text" placeholder='City' className='border-2 border-gray-300 p-3 rounded-md w-full' />
+              <input required onChange={onChangeHandler} name='state' value={formData.state} type="text" placeholder='State' className='border-2 border-gray-300 p-3 rounded-md w-full' />
+              <input required onChange={onChangeHandler} name='pinCode' value={formData.pinCode} type="number" placeholder='PIN code' className='border-2 border-gray-300 p-3 rounded-md w-full' />
             </div>
           </form>
 
@@ -142,23 +215,23 @@ const Checkout = () => {
               }`}
             >
               <form className='flex flex-col gap-6 mb-6'>
-                <input type="text" placeholder='Country/Region' className=' bg-white border-2 border-gray-300 p-3 rounded-md' />
+                <input required onChange={onBillingChangeHandler} name='country' value={billingFormData.country} type="text" placeholder='Country/Region' className=' bg-white border-2 border-gray-300 p-3 rounded-md' />
                 <div className='flex justify-between gap-3'> 
-                  <input type="text" placeholder='First name' className='bg-white border-2 border-gray-300 p-3 rounded-md w-full' />
-                  <input type="text" placeholder='Last name' className='border-2 bg-white border-gray-300 p-3 rounded-md w-full' />
+                  <input required onChange={onBillingChangeHandler} name='firstName' value={billingFormData.firstName} type="text" placeholder='First name' className='bg-white border-2 border-gray-300 p-3 rounded-md w-full' />
+                  <input required onChange={onBillingChangeHandler} name='lastName' value={billingFormData.lastName} type="text" placeholder='Last name' className='border-2 bg-white border-gray-300 p-3 rounded-md w-full' />
                 </div>
-                <input type="text" placeholder='Address' className='border-2 bg-white border-gray-300 p-3 rounded-md' />
-                <input type="text" placeholder='Apartment, suite, etc. (optional)' className='border-2 bg-white border-gray-300 p-3 rounded-md' />
+                <input required onChange={onBillingChangeHandler} name='address' value={billingFormData.address} type="text" placeholder='Address' className='border-2 bg-white border-gray-300 p-3 rounded-md' />
+                <input required onChange={onBillingChangeHandler} name='apartment' value={billingFormData.apartment} type="text" placeholder='Apartment, suite, etc. (optional)' className='border-2 bg-white border-gray-300 p-3 rounded-md' />
                 <div className="flex justify-between gap-3">
-                  <input type="text" placeholder='City' className='border-2 bg-white border-gray-300 p-3 rounded-md w-full' />
-                  <input type="text" placeholder='State' className='border-2 bg-white border-gray-300 p-3 rounded-md w-full' />
-                  <input type="number" placeholder='PIN code' className='border-2 bg-white border-gray-300 p-3 rounded-md w-full' />
+                  <input required onChange={onBillingChangeHandler} name='city' value={billingFormData.city} type="text" placeholder='City' className='border-2 bg-white border-gray-300 p-3 rounded-md w-full' />
+                  <input required onChange={onBillingChangeHandler} name='state' value={billingFormData.state} type="text" placeholder='State' className='border-2 bg-white border-gray-300 p-3 rounded-md w-full' />
+                  <input required onChange={onBillingChangeHandler} name='pinCode' value={billingFormData.pinCode} type="number" placeholder='PIN code' className='border-2 bg-white border-gray-300 p-3 rounded-md w-full' />
                 </div>
               </form>
             </div>
           </div>
 
-          <button className='w-full mt-4 bg-blue-600 text-white rounded-md text-center text-lg font-semibold py-3 hover:bg-blue-700 cursor-pointer'>
+          <button onClick={onSubmitHandler} className='w-full mt-4 bg-blue-600 text-white rounded-md text-center text-lg font-semibold py-3 hover:bg-blue-700 cursor-pointer'>
             {paymentType === "razorpay" ? "Pay now" : "Complete order"}
           </button>
           <hr className='border border-gray-300 mt-20 mb-4' />

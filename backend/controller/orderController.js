@@ -6,13 +6,18 @@ const currency = "inr"
 //for cod
 const placeOrder = async(req, res) => {
   try {
-    const { userId, items, amount, deliveryAddress, billingAddress } = req.body;
+    console.log("Request Body:", req.body); // Debugging
+    const { userId, items, amount, shippingAddress, billingAddress } = req.body;
+
+    if (!shippingAddress) {
+      return res.json({ success: false, message: "Delivery address is required" });
+    }
 
     const orderData = {
       userId,
       items,
       amount,
-      deliveryAddress,
+      shippingAddress,
       billingAddress,
       paymentMethod: "COD",
       payment: false
