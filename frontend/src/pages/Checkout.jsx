@@ -4,12 +4,22 @@ import { ShopContext } from '../context/ShopContext';
 
 const Checkout = () => {
 
-  const { products, currency, cartItems, navigate, updateQuantity, getCartAmount, calculateTaxPercentage } = useContext(ShopContext);
+  const { products, currency, cartItems, navigate, updateQuantity, getCartAmount, calculateTaxPercentage, token } = useContext(ShopContext);
   const cartTotal = getCartAmount();
   const [ cartData, setCartData ] = useState([]);
 
   const [billingOption, setBillingOption] = useState("same");
   const [paymentType, setPaymentType] = useState("cod");
+  const [formData, setFormData] = useState({
+    country: '',
+    firstName: '',
+    lastName: '',
+    address: '',
+    apartment: '',
+    city: '',
+    state: '',
+    pinCode: ''
+  })
 
   useEffect(() => {
     console.log("Updated Cart Items:", cartItems);

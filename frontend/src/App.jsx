@@ -22,6 +22,7 @@ import Register from './pages/Register'
 import Checkout from './pages/Checkout'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import Orders from './pages/Orders'
 
 const App = () => {
 
@@ -51,6 +52,7 @@ const App = () => {
         <Route path='/login' element={ <Login /> } />
         <Route path='/register' element={ <Register /> } />
         <Route path='/checkout' element={<Checkout />} />
+        <Route path='/orders' element={<Orders />} />
       </Routes>
       {!hideLayout && <Footer />}
     </div>
