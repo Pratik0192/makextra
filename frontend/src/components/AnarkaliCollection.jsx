@@ -6,7 +6,7 @@ import ProductItem from './ProductItem';
 const AnarkaliCollection = () => {
 
   const { products } = useContext(ShopContext)
-  console.log(products);
+  //console.log(products);
 
   const anarkaliProducts = products.filter(
     (product) => product.category === "Anarkali Collection"
