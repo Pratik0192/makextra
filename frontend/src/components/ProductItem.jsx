@@ -1,14 +1,23 @@
 import { Star } from 'lucide-react'
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { ShopContext } from '../context/ShopContext';
 
 const ProductItem = ({product}) => {
+
+  const [hovered, setHovered] = useState(false);
+  const { currency } = useContext(ShopContext)
+
   return (
     <Link to={`/product/${product._id}`}>
       <div className="bg-white rounded-sm overflow-hidden cursor-pointer">
-        <div className="w-full relative">
+        <div 
+          onMouseEnter={() => setHovered(true)}
+          onMouseLeave={() => setHovered(false)}
+          className="w-full relative"
+        >
           <img 
-            src={product.images[0]}
+            src={hovered ? product.images[1] : product.images[0]}
             alt={product.name} 
             className="w-full h-full object-cover transition-transform duration-300 ease-in-out hover:scale-105"
           />
@@ -23,10 +32,10 @@ const ProductItem = ({product}) => {
           </h3>
           <div className="flex items-center justify-between mt-1 sm:mt-2">
             <p className="text-sm sm:text-base text-[#4B6A75] line-through">
-              ₹{product.original_price}
+              {currency} {product.original_price}
             </p>
             <p className="text-sm sm:text-base text-[#103948]">
-              ₹{product.discounted_price}
+            {currency} {product.discounted_price}
             </p>
           </div>
         </div>

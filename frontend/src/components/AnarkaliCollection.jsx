@@ -1,18 +1,23 @@
 import React, { useContext } from 'react'
-import Title from './Title'
 import { ShopContext } from '../context/ShopContext'
-import ProductItem from './ProductItem'
+import Title from './Title';
+import ProductItem from './ProductItem';
 
-const KurtiCollection = () => {
+const AnarkaliCollection = () => {
 
   const { products } = useContext(ShopContext)
+  console.log(products);
 
+  const anarkaliProducts = products.filter(
+    (product) => product.category === "Anarkali Collection"
+  )
+  
   return (
     <div className='mt-10 px-2 sm:px-4 md:px-8 lg:px-16 xl:px-32 '>
-      <Title text={'Kurtis Collection'} />
+      <Title text={'Anarkali collection'} />
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1">
         {
-          products.map((item, index) => (
+          anarkaliProducts.map((item, index) => (
             <ProductItem key={index} product={item} />
           ))
         }
@@ -24,4 +29,4 @@ const KurtiCollection = () => {
   )
 }
 
-export default KurtiCollection
+export default AnarkaliCollection

@@ -64,9 +64,11 @@ const Navbar = () => {
               <ShoppingBag className="w-5 h-5 text-gray-600 cursor-pointer" />
             </Link>
             
-            <span className="absolute -bottom-2 -right-2 bg-[#DE3163] text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
-              {getCartCount()}
-            </span>
+            {getCartCount() > 0 && (
+              <span className="absolute -bottom-2 -right-2 bg-[#DE3163] text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
+                {getCartCount()}
+              </span>
+            )}
           </div>
         </div>
       </div>
@@ -83,7 +85,7 @@ const Navbar = () => {
         </li>
         <li>
           <Link
-            to="/"
+            to="/allproducts"
             className="cursor-pointer text-gray-500 hover:text-gray-900 relative after:content-[''] after:absolute after:left-0 after:bottom-[-2px] after:w-0 after:h-[0.5px] after:bg-gray-900 after:transition-all after:duration-300 hover:after:w-full"
           >
             New Arrivals
