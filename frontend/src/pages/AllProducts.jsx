@@ -80,7 +80,7 @@ const AllProducts = () => {
           {/* Category Filter Dropdown */}
           <div className='relative dropdown'>
             <button 
-              className='border border-gray-300 text-sm px-4 py-2 rounded-lg bg-white shadow-md'
+              className='border border-gray-300 text-sm px-4 py-2 rounded-lg bg-white shadow-md cursor-pointer'
               onClick={() => {
                 setIsCategoryOpen(!isCategoryOpen);
                 setIsPriceOpen(false);
@@ -118,7 +118,7 @@ const AllProducts = () => {
           {/* Price Filter Dropdown */}
           <div className='relative dropdown'>
             <button 
-              className='border border-gray-300 text-sm px-4 py-2 rounded-lg bg-white shadow-md'
+              className='border border-gray-300 text-sm px-4 py-2 rounded-lg bg-white shadow-md cursor-pointer'
               onClick={() => {
                 setIsPriceOpen(!isPriceOpen);
                 setIsCategoryOpen(false);
@@ -158,7 +158,7 @@ const AllProducts = () => {
         {/* Sorting Dropdown */}
         <div className='relative dropdown'>
           <button 
-            className='border border-gray-300 text-gray-600 text-sm px-4 py-2 rounded-lg bg-white shadow-md'
+            className='border border-gray-300 text-gray-600 text-sm px-4 py-2 rounded-lg bg-white shadow-md cursor-pointer'
             onClick={() => {
               setIsSortOpen(!isSortOpen);
               setIsCategoryOpen(false);
