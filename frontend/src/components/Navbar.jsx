@@ -6,6 +6,7 @@ import { ShopContext } from "../context/ShopContext";
 import profile_icon from '../assets/profile_icon.png'
 import MobileNavigation from "./MobileNavigation";
 import Searchbar from "./Searchbar";
+import cart_icon from '../assets/cart_icon.png'
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -37,13 +38,13 @@ const Navbar = () => {
 
           {/* Search Icon for Desktop (Hidden on mobile) */}
           <div className="items-center hidden md:block">
-          <Search 
-            className="w-5 h-5 text-gray-600 cursor-pointer" 
-            onClick={() => {
-              console.log("Search icon clicked");
-              setShowSearch(true);
-            }}  
-          />
+            <Search 
+              className="w-5 h-5 text-gray-600 cursor-pointer" 
+              onClick={() => {
+                console.log("Search icon clicked");
+                setShowSearch(true);
+              }}  
+            />
           </div>
 
           {/* Logo (Always Centered) */}
@@ -53,8 +54,15 @@ const Navbar = () => {
 
           {/* Right Icons (Move Right on Mobile) */}
           <div className="flex items-center space-x-4 ml-auto md:ml-0">
-            <Search className="md:hidden w-5 h-5 text-gray-600 cursor-pointer" />
-            <div className="group relative">
+
+            <Search 
+              className="md:hidden w-5 h-5 text-gray-600 cursor-pointer"
+              onClick={() => {
+                setShowSearch(true)
+              }}
+            />
+
+            <div className="group relative hidden md:block">
               <img onClick={() => token ? null : navigate('/login')} src={profile_icon} className="w-5 cursor-pointer" alt="" />
 
               {/* dropdown */}
@@ -68,10 +76,10 @@ const Navbar = () => {
                 </div>
               }
             </div>
-            
+
             <div className="relative">
               <Link to='/cart'>
-                <ShoppingBag className="w-5 h-5 text-gray-600 cursor-pointer" />
+                <img className="w-5 cursor-pointer" src={cart_icon} alt="" />
               </Link>
               
               {getCartCount() > 0 && (
@@ -162,7 +170,7 @@ const Navbar = () => {
 
         {/* Mobile Navigation Menu (Hidden by default) */}
         {menuOpen && (
-          <MobileNavigation />
+          <MobileNavigation menuOpen={menuOpen} setMenuOpen={setMenuOpen}  />
         )}
       </nav>
     </>
