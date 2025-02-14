@@ -98,64 +98,20 @@ const getUserProfile = async (req, res) => {
   }
 };
 
-// Add Product to Cart
-// const addToCart = async (req, res) => {
-//   try {
-//     const { product_id, quantity } = req.body;
-//     const user = await UserModel.findById(req.user.id);
+const adminLogin = (req,res) => {
+  try {
+    const { email, password } = req.body;
 
-//     if (!user) return res.status(404).json({ success: false, message: "User not found" });
+    if(email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD ) {
+      const token = jwt.sign(email+password, process.env.JWT_SECRET);
+      res.json({success: true, token})
+    } else {
+      res.json({ success: false, message: "invalid credentials" })
+    }
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message })
+  }
+}
 
-//     // Check if product is already in cart
-//     const itemIndex = user.cartData.findIndex(item => item.product_id.toString() === product_id);
-
-//     if (itemIndex > -1) {
-//       // If product exists, update quantity
-//       user.cartData[itemIndex].quantity += quantity;
-//     } else {
-//       // Else, add new product
-//       user.cartData.push({ product_id, quantity });
-//     }
-
-//     await user.save();
-//     res.json({ success: true, message: "Product added to cart", cart: user.cartData });
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).json({ success: false, message: error.message });
-//   }
-// };
-
-// // Remove Product from Cart
-// const removeFromCart = async (req, res) => {
-//   try {
-//     const { product_id } = req.body;
-//     const user = await UserModel.findById(req.user.id);
-
-//     if (!user) return res.status(404).json({ success: false, message: "User not found" });
-
-//     // Remove product from cart
-//     user.cartData = user.cartData.filter(item => item.product_id.toString() !== product_id);
-
-//     await user.save();
-//     res.json({ success: true, message: "Product removed from cart", cart: user.cartData });
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).json({ success: false, message: error.message });
-//   }
-// };
-
-// //Get all cartData for a particular User
-// const getAllCartData = async(req, res) => {
-//   try {
-//     const user = await UserModel.findById(req.user.id).populate("cartData.product_id");
-
-//     if(!user) return res.status(404).json({ success: false, message: "User not found" });
-
-//     res.json({ success : true, cart: user.cartData });
-//   } catch(error) {
-//     console.log(error);
-//     res.status(500).json({ success: false, message: "Server error" })
-//   }
-// }
-
-export { registerUser, loginUser, getUserProfile };
+export { registerUser, loginUser, getUserProfile, adminLogin };
