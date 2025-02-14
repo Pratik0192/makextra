@@ -21,13 +21,16 @@ const KurtiCollection = () => {
     <div className='mt-10 px-2 sm:px-4 md:px-8 lg:px-16 xl:px-32 '>
       <Title text={'Kurtis Collection'} />
       <motion.div 
-        initial="hidden" 
-        animate="visible" 
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
         className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1"
       >
         {
           products.map((item, index) => (
-            <ProductItem key={index} product={item} />
+            <motion.div key={index} variants={itemVariants} custom={index}>
+              <ProductItem product={item} />
+            </motion.div>
           ))
         }
       </motion.div>

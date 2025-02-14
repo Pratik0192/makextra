@@ -70,7 +70,7 @@ const AllProducts = () => {
   }, []);
 
   return (
-    <div className='mt-10 px-2 sm:px-4 md:px-8 lg:px-16 xl:px-32'>
+    <div className='mt-10 mb-10 px-2 sm:px-4 md:px-8 lg:px-16 xl:px-32'>
       <Title text={'All Products'} />
 
       {/* Filter & Sort Section */}

@@ -3,6 +3,16 @@ import { ShopContext } from '../context/ShopContext'
 import Title from './Title'
 import BestSellerProductItem from './BestSellerProductItem'
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { motion } from 'framer-motion'
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: (index) => ({
+    opacity: 1,
+    y: 0,
+    transition: { delay: index * 0.1, duration: 0.4 },
+  }),
+}
 
 const BestSellers = () => {
 
@@ -41,16 +51,19 @@ const BestSellers = () => {
         </button>
 
         {/* Product Carousel */}
-        <div
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
           ref={carouselRef}
           className="flex gap-4 overflow-x-auto scroll-smooth hide-scrollbar px-2"
         >
           {products.map((item, index) => (
-            <div key={index} className="min-w-[200px] md:min-w-[250px] lg:min-w-[300px]">
+            <motion.div key={index} variants={itemVariants} custom={index} className="min-w-[200px] md:min-w-[250px] lg:min-w-[300px]">
               <BestSellerProductItem product={item} />
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         {/* Right Button */}
         <button

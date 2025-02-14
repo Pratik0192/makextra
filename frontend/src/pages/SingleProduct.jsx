@@ -40,7 +40,7 @@ const SingleProduct = () => {
   };
 
   return (
-    <div className="pt-10 px-2 sm:px-4 md:px-8 lg:px-16 xl:px-32 ">
+    <div className="pt-4 md:pt-10 mb-10 px-2 sm:px-4 md:px-8 lg:px-16 xl:px-32 ">
       <div className="flex flex-col sm:flex-row gap-10">
         
         {/* Product Images Section */}
@@ -52,14 +52,14 @@ const SingleProduct = () => {
             {/* Left Button */}
             <button 
               onClick={prevImage} 
-              className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full"
+              className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-[#DE3163] text-white p-2 rounded-full"
             >
               ❮
             </button>
             {/* Right Button */}
             <button 
               onClick={nextImage} 
-              className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full"
+              className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-[#DE3163] text-white p-2 rounded-full"
             >
               ❯
             </button>
