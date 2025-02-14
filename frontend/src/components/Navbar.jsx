@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Search, User, ShoppingBag, Menu, X } from "lucide-react";
 import main_logo from "../assets/main_logo.png";
 import { ShopContext } from "../context/ShopContext";
@@ -9,6 +9,9 @@ import Searchbar from "./Searchbar";
 import cart_icon from '../assets/cart_icon.png'
 
 const Navbar = () => {
+
+  const location = useLocation();
+
   const [menuOpen, setMenuOpen] = useState(false);
   const [visible, setVisible] = useState(false);
   const [supportDropdownOpen, setSupportDropdownOpen] = useState(false);
@@ -96,7 +99,7 @@ const Navbar = () => {
           <li>
             <Link
               to="/"
-              className="cursor-pointer text-gray-500 hover:text-gray-900 relative after:content-[''] after:absolute after:left-0 after:bottom-[-2px] after:w-0 after:h-[0.5px] after:bg-gray-900 after:transition-all after:duration-300 hover:after:w-full"
+              className={`cursor-pointer text-gray-500 hover:text-gray-900 relative after:content-[''] after:absolute after:left-0 after:bottom-[-2px] after:w-0 after:h-[0.5px] after:bg-gray-900 after:transition-all after:duration-300 hover:after:w-full ${location.pathname === '/' ? "text-gray-900 after:w-full" : "hover:text-gray-900"} `}
             >
               Home
             </Link>
@@ -104,7 +107,7 @@ const Navbar = () => {
           <li>
             <Link
               to="/allproducts"
-              className="cursor-pointer text-gray-500 hover:text-gray-900 relative after:content-[''] after:absolute after:left-0 after:bottom-[-2px] after:w-0 after:h-[0.5px] after:bg-gray-900 after:transition-all after:duration-300 hover:after:w-full"
+              className={`cursor-pointer text-gray-500 hover:text-gray-900 relative after:content-[''] after:absolute after:left-0 after:bottom-[-2px] after:w-0 after:h-[0.5px] after:bg-gray-900 after:transition-all after:duration-300 hover:after:w-full ${location.pathname === '/allproducts' ? "text-gray-900 after:w-full" : "hover:text-gray-900"} `}
             >
               New Arrivals
             </Link>
@@ -112,7 +115,7 @@ const Navbar = () => {
           <li>
             <Link
               to="/collections"
-              className="cursor-pointer text-gray-500 hover:text-gray-900 relative after:content-[''] after:absolute after:left-0 after:bottom-[-2px] after:w-0 after:h-[0.5px] after:bg-gray-900 after:transition-all after:duration-300 hover:after:w-full"
+              className={`cursor-pointer text-gray-500 hover:text-gray-900 relative after:content-[''] after:absolute after:left-0 after:bottom-[-2px] after:w-0 after:h-[0.5px] after:bg-gray-900 after:transition-all after:duration-300 hover:after:w-full ${location.pathname === '/collections' ? "text-gray-900 after:w-full" : "hover:text-gray-900"} `}
             >
               Collections
             </Link>
@@ -120,7 +123,7 @@ const Navbar = () => {
           <li>
             <Link
               to="/track-order"
-              className="cursor-pointer text-gray-500 hover:text-gray-900 relative after:content-[''] after:absolute after:left-0 after:bottom-[-2px] after:w-0 after:h-[0.5px] after:bg-gray-900 after:transition-all after:duration-300 hover:after:w-full"
+              className={`cursor-pointer text-gray-500 hover:text-gray-900 relative after:content-[''] after:absolute after:left-0 after:bottom-[-2px] after:w-0 after:h-[0.5px] after:bg-gray-900 after:transition-all after:duration-300 hover:after:w-full ${location.pathname === '/track-order' ? "text-gray-900 after:w-full" : "hover:text-gray-900"} `}
             >
               Track Your Order
             </Link>
@@ -160,8 +163,8 @@ const Navbar = () => {
           </li>
           <li>
             <Link
-              to="/"
-              className="cursor-pointer text-gray-500 hover:text-gray-900 relative after:content-[''] after:absolute after:left-0 after:bottom-[-2px] after:w-0 after:h-[0.5px] after:bg-gray-900 after:transition-all after:duration-300 hover:after:w-full"
+              to="/sale"
+              className={`cursor-pointer text-gray-500 hover:text-gray-900 relative after:content-[''] after:absolute after:left-0 after:bottom-[-2px] after:w-0 after:h-[0.5px] after:bg-gray-900 after:transition-all after:duration-300 hover:after:w-full ${location.pathname === '/sale' ? "text-gray-900 after:w-full" : "hover:text-gray-900"} `}
             >
               Sale
             </Link>

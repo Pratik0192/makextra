@@ -79,6 +79,10 @@ const Checkout = () => {
           console.log(response.data);
           if(response.data.success) {
             setCartItems({})
+            toast.success("Order Placed succesfully!", { autoClose: 2000 });
+            setTimeout(() => {
+              navigate('/');
+            }, 2000)
           } else {
             toast.error(response.data.message)
           }
