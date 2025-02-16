@@ -23,6 +23,20 @@ const AllProducts = () => {
     }
   }
 
+  const removeProduct = async(id) => {
+    try {
+      const response = await axios.post(backendUrl+'/api/product/remove', {id});
+      if(response.data.success) {
+        toast.success(response.data.message);
+        await fetchProducts();
+      } else {
+        toast.error(response.data.message)
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
     fetchProducts()
   }, [])
@@ -50,7 +64,7 @@ const AllProducts = () => {
             <p className="truncate">{item.category}</p>
             <p>{currency}{item.original_price}</p>
             <p>{currency}{item.discounted_price}</p>
-            <p className='text-right md:text-center cursor-pointer text-lg text-red-500 hover:text-red-700 font-bold'>X</p>
+            <p onClick={() => removeProduct(item._id)} className='text-right md:text-center cursor-pointer text-lg text-red-500 hover:text-red-700 font-bold'>X</p>
           </div>
         ))}
       </div>
