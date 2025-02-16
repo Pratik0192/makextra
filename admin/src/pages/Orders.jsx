@@ -21,6 +21,20 @@ const Orders = () => {
     }
   };
 
+  const statusHandler = async(event, orderId) => {
+    try {
+      
+      const response = await axios.post(backendUrl+'/api/order/status', {orderId, status:event.target.value})
+      if(response.data.success) {
+        await fetchAllOrders()
+      }
+
+    } catch (error) {
+      console.log(error);
+      toast.error(response.data.message)
+    }
+  }
+
   useEffect(() => {
     fetchAllOrders();
   }, []);
