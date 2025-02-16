@@ -33,7 +33,7 @@ const Login = () => {
   }, [token])
 
   return (
-    <form onSubmit={onSubmitHandler} className='flex flex-col items-center w-[90%] sm:max-w-96 m-auto mt-14 gap-4'>
+    <form onSubmit={onSubmitHandler} className='flex flex-col items-center w-[90%] sm:max-w-96 m-auto mt-14 gap-4 mb-14'>
       <div className="inline-flex items-center gap-2 mb-2 mt-10">
         <p className='text-3xl'>Login</p>
       </div>
