@@ -39,8 +39,7 @@ const placeOrder = async(req, res) => {
 //user order data for frontend
 const userOrders = async(req, res) => {
   try {
-    const { userId } = req.body
-
+    const {userId}  = req.body
     const orders = await OrderModel.find({ userId })
     res.json({ success: true, orders })
 
