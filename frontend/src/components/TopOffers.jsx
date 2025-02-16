@@ -10,13 +10,13 @@ const featureNames = [
 const TopOffers = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % featureNames.length);
-    }, 3000); // Change slide every 3 seconds
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     setCurrentIndex((prevIndex) => (prevIndex + 1) % featureNames.length);
+  //   }, 3000); // Change slide every 3 seconds
 
-    return () => clearInterval(interval);
-  }, []);
+  //   return () => clearInterval(interval);
+  // }, []);
 
   const handlePrev = () => {
     setCurrentIndex((prevIndex) => (prevIndex - 1 + featureNames.length) % featureNames.length);
@@ -30,7 +30,7 @@ const TopOffers = () => {
     <div className="relative bg-gradient-to-b bg-[#560e13] to-[#8c1018] text-white py-2 flex items-center justify-center">
       <button 
         onClick={handlePrev} 
-        className="absolute left-15 text-[white] hover:text-gray-300 transition duration-300"
+        className="absolute left-4 md:left-15 text-[white] hover:text-gray-300 transition duration-300"
       >
         <ChevronLeft size={16} />
       </button>
@@ -43,9 +43,9 @@ const TopOffers = () => {
           {featureNames.map((feature, index) => (
             <div 
               key={index} 
-              className="inline-block w-full text-center text-[white] text-sm px-4"
+              className="inline-block border w-full text-center text-[white] text-sm px-4"
             >
-              {feature}
+              {feature}  
             </div>
           ))}
         </div>
@@ -53,7 +53,7 @@ const TopOffers = () => {
 
       <button 
         onClick={handleNext} 
-        className="absolute right-15 text-[white] hover:text-gray-300 transition duration-300"
+        className="absolute right-4 md:right-15 text-[white] hover:text-gray-300 transition duration-300"
       >
         <ChevronRight size={16} />
       </button>

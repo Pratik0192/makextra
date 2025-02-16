@@ -3,6 +3,7 @@ import Title from './Title'
 import { ShopContext } from '../context/ShopContext'
 import ProductItem from './ProductItem'
 import { motion } from 'framer-motion'
+import { Link } from 'react-router-dom'
 
 const KurtiCollection = () => {
 
@@ -35,9 +36,11 @@ const KurtiCollection = () => {
         }
       </motion.div>
       <div className='flex items-center justify-center mt-4'>
-        <button className="cursor-pointer bg-gradient-to-r from-[#560e13] to-[#8c1018] text-white px-8 py-3 rounded-md text-sm border border-white hover:border-[#DE3163]">
-          View All
-        </button>
+        <Link to='/allproducts'>
+          <button className="cursor-pointer bg-gradient-to-r from-[#560e13] to-[#8c1018] text-white px-8 py-3 rounded-md text-sm border border-white hover:border-[#DE3163]">
+            View All
+          </button>
+        </Link>
       </div>
     </div>
   )

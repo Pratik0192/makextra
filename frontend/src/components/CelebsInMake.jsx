@@ -32,7 +32,7 @@ const CelebsInMake = () => {
   return (
     <>
       <div className="mt-6 mb-2 px-4 md:px-8 lg:px-16 xl:px-32 flex justify-center items-center">
-        <Title text={'Celebs at makextra'} />
+        <Title text={'Celebs at Karuna'} />
       </div>
       <div className="relative w-full overflow-hidden">
         {/* Image Container */}
