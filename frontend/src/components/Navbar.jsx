@@ -3,10 +3,8 @@ import { Link, useLocation } from "react-router-dom";
 import { Search, User, ShoppingBag, Menu, X, User2, ShoppingBasket, ShoppingCart } from "lucide-react";
 import main_logo from "../assets/new_logo.png";
 import { ShopContext } from "../context/ShopContext";
-import profile_icon from '../assets/new_logo.png'
 import MobileNavigation from "./MobileNavigation";
 import Searchbar from "./Searchbar";
-import cart_icon from '../assets/cart_icon.png'
 
 const Navbar = () => {
 
