@@ -132,6 +132,12 @@ const ShopContextProvider = (props) => {
     }
   }, [])
 
+  useEffect(() => {
+    if(token) {
+      getUserCart(token);
+    }
+  }, [cartItems])
+
   const value = {
     products, currency,
     search, setSearch,

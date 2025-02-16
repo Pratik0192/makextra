@@ -9,7 +9,6 @@ const Cart = () => {
   const [cartData, setCartData] = useState([]);
   
   useEffect(() => {
-    console.log("Updated Cart Items:", cartItems);
     const tempData = Object.entries(cartItems).map(([itemId, quantity]) => ({
       _id: itemId,
       quantity,
