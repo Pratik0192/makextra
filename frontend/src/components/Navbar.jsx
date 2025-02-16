@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Search, User, ShoppingBag, Menu, X } from "lucide-react";
+import { Search, User, ShoppingBag, Menu, X, User2, ShoppingBasket, ShoppingCart } from "lucide-react";
 import main_logo from "../assets/main_logo.png";
 import { ShopContext } from "../context/ShopContext";
 import profile_icon from '../assets/profile_icon.png'
@@ -31,18 +31,18 @@ const Navbar = () => {
   return (
     <>
       {showSearch && <Searchbar /> }
-      <nav className={`bg-white py-4 px-6 md:px-20 ${showSearch ? '' : 'sticky top-0 z-50'}`}>
+      <nav className={`bg-[#8c1018] py-4 px-6 md:px-20 ${showSearch ? '' : 'sticky top-0 z-50'}`}>
         {/* Top Section */}
         <div className="flex justify-between items-center w-full">
           {/* Hamburger Icon (Visible only on Mobile) */}
           <button className="md:hidden" onClick={() => setMenuOpen(!menuOpen)}>
-            {menuOpen ? <X className="w-6 h-6 text-gray-600" /> : <Menu className="w-6 h-6 text-gray-600" />}
+            {menuOpen ? <X className="w-6 h-6 text-[#E9B466]" /> : <Menu className="w-6 h-6 text-[#E9B466]" />}
           </button>
 
           {/* Search Icon for Desktop (Hidden on mobile) */}
           <div className="items-center hidden md:block">
             <Search 
-              className="w-5 h-5 text-gray-600 cursor-pointer" 
+              className="w-5 h-5 text-[white] cursor-pointer" 
               onClick={() => {
                 console.log("Search icon clicked");
                 setShowSearch(true);
@@ -51,23 +51,26 @@ const Navbar = () => {
           </div>
 
           {/* Logo (Always Centered) */}
-            <div className="flex justify-center items-center flex-1">
-              <img src={main_logo} alt="Logo" className="h-10 md:h-15" />
+            <div className="flex pl-9 justify-center items-center flex-1">
+              <img src={main_logo} alt="Logo" className="h-12 md:h-18" />
             </div>
 
           {/* Right Icons (Move Right on Mobile) */}
           <div className="flex items-center space-x-4 ml-auto md:ml-0">
 
             <Search 
-              className="md:hidden w-5 h-5 text-gray-600 cursor-pointer"
+              className="md:hidden w-5 h-5 text-[white] cursor-pointer"
               onClick={() => {
                 setShowSearch(true)
               }}
             />
 
             <div className="group relative hidden md:block">
-              <img onClick={() => token ? null : navigate('/login')} src={profile_icon} className="w-5 cursor-pointer" alt="" />
-
+              {/* <img onClick={() => token ? null : navigate('/login')} src={profile_icon} className="w-5 cursor-pointer" alt="" /> */}
+              <User2 
+                onClick={() => token ? null : navigate('/login')}
+                className="w-8 cursor-pointer text-[white]"
+              />
               {/* dropdown */}
               {token &&
                 <div className='group-hover:block hidden absolute dropdown-menu right-0 pt-4'>
@@ -82,11 +85,11 @@ const Navbar = () => {
 
             <div className="relative">
               <Link to='/cart'>
-                <img className="w-5 cursor-pointer" src={cart_icon} alt="" />
+                <ShoppingCart className="w-8 cursor-pointer text-[white]" />
               </Link>
               
               {getCartCount() > 0 && (
-                <span className="absolute -bottom-2 -right-2 bg-[#DE3163] text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
+                <span className="absolute -top-2 -right-2 bg-[#e9b566] text-[#8c1018] text-xs rounded-full w-4 h-4 flex items-center justify-center">
                   {getCartCount()}
                 </span>
               )}
@@ -95,11 +98,11 @@ const Navbar = () => {
         </div>
 
         {/* Desktop Navigation Links */}
-        <ul className="hidden md:flex justify-center space-x-6 text-gray-700 text-sm font-medium mt-4 mb-4">
+        <ul className="hidden md:flex justify-center space-x-6 text-sm font-medium mt-4 mb-4">
           <li>
             <Link
               to="/"
-              className={`cursor-pointer text-gray-500 hover:text-gray-900 relative after:content-[''] after:absolute after:left-0 after:bottom-[-2px] after:w-0 after:h-[0.5px] after:bg-gray-900 after:transition-all after:duration-300 hover:after:w-full ${location.pathname === '/' ? "text-gray-900 after:w-full" : "hover:text-gray-900"} `}
+              className={`cursor-pointer text-white hover:text-[#FFC877] relative after:content-[''] after:absolute after:left-0 after:bottom-[-2px] after:w-0 after:h-[0.5px] after:bg-[white] after:transition-all after:duration-300 hover:after:w-full ${location.pathname === '/' ? "text-[#FFC877] after:w-full" : "hover:text-[#FFC877]"} `}
             >
               Home
             </Link>
@@ -107,7 +110,7 @@ const Navbar = () => {
           <li>
             <Link
               to="/allproducts"
-              className={`cursor-pointer text-gray-500 hover:text-gray-900 relative after:content-[''] after:absolute after:left-0 after:bottom-[-2px] after:w-0 after:h-[0.5px] after:bg-gray-900 after:transition-all after:duration-300 hover:after:w-full ${location.pathname === '/allproducts' ? "text-gray-900 after:w-full" : "hover:text-gray-900"} `}
+              className={`cursor-pointer text-white hover:text-[#FFC877] relative after:content-[''] after:absolute after:left-0 after:bottom-[-2px] after:w-0 after:h-[0.5px] after:bg-[white] after:transition-all after:duration-300 hover:after:w-full ${location.pathname === '/allproducts' ? "text-[#FFC877] after:w-full" : "hover:text-[#FFC877]"} `}
             >
               New Arrivals
             </Link>
@@ -115,7 +118,7 @@ const Navbar = () => {
           <li>
             <Link
               to="/collections"
-              className={`cursor-pointer text-gray-500 hover:text-gray-900 relative after:content-[''] after:absolute after:left-0 after:bottom-[-2px] after:w-0 after:h-[0.5px] after:bg-gray-900 after:transition-all after:duration-300 hover:after:w-full ${location.pathname === '/collections' ? "text-gray-900 after:w-full" : "hover:text-gray-900"} `}
+              className={`cursor-pointer text-white hover:text-[#FFC877] relative after:content-[''] after:absolute after:left-0 after:bottom-[-2px] after:w-0 after:h-[0.5px] after:bg-[white] after:transition-all after:duration-300 hover:after:w-full ${location.pathname === '/collections' ? "text-[#FFC877] after:w-full" : "hover:text-[#FFC877]"} `}
             >
               Collections
             </Link>
@@ -123,7 +126,7 @@ const Navbar = () => {
           <li>
             <Link
               to="/track-order"
-              className={`cursor-pointer text-gray-500 hover:text-gray-900 relative after:content-[''] after:absolute after:left-0 after:bottom-[-2px] after:w-0 after:h-[0.5px] after:bg-gray-900 after:transition-all after:duration-300 hover:after:w-full ${location.pathname === '/track-order' ? "text-gray-900 after:w-full" : "hover:text-gray-900"} `}
+              className={`cursor-pointer text-white hover:text-[#FFC877] relative after:content-[''] after:absolute after:left-0 after:bottom-[-2px] after:w-0 after:h-[0.5px] after:bg-[white] after:transition-all after:duration-300 hover:after:w-full ${location.pathname === '/track-order' ? "text-[#FFC877] after:w-full" : "hover:text-[#FFC877]"} `}
             >
               Track Your Order
             </Link>
@@ -132,7 +135,7 @@ const Navbar = () => {
           {/* Support Dropdown */}
           <li className="relative">
             <button
-              className="cursor-pointer text-gray-500 hover:text-gray-900 relative after:content-[''] after:absolute after:left-0 after:bottom-[-2px] after:w-0 after:h-[0.5px] after:bg-gray-900 after:transition-all after:duration-300 hover:after:w-full"
+              className="cursor-pointer text-white hover:text-[#FFC877] relative after:content-[''] after:absolute after:left-0 after:bottom-[-2px] after:w-0 after:h-[0.5px] after:bg-[white] after:transition-all after:duration-300 hover:after:w-full"
               onClick={toggleSupportDropdown}
             >
               Support
@@ -164,7 +167,7 @@ const Navbar = () => {
           <li>
             <Link
               to="/sale"
-              className={`cursor-pointer text-gray-500 hover:text-gray-900 relative after:content-[''] after:absolute after:left-0 after:bottom-[-2px] after:w-0 after:h-[0.5px] after:bg-gray-900 after:transition-all after:duration-300 hover:after:w-full ${location.pathname === '/sale' ? "text-gray-900 after:w-full" : "hover:text-gray-900"} `}
+              className={`cursor-pointer text-white hover:text-[#FFC877] relative after:content-[''] after:absolute after:left-0 after:bottom-[-2px] after:w-0 after:h-[0.5px] after:bg-[white] after:transition-all after:duration-300 hover:after:w-full ${location.pathname === '/sale' ? "text-[#FFC877] after:w-full" : "hover:text-[#FFC877]"} `}
             >
               Sale
             </Link>

@@ -4,38 +4,38 @@ import { Link } from "react-router-dom"
 
 const Footer = () => {
   return (
-    <div className='flex flex-col bg-[#DE3163] text-white px-2 sm:px-4 md:px-8 lg:px-16 xl:px-32 pt-10 pb-2'>
+    <div className='flex flex-col bg-[#8c1018] text-white px-2 sm:px-4 md:px-8 lg:px-16 xl:px-32 pt-10 pb-2'>
       <div className="grid grid-cols-1 sm:grid-cols-2">
         <div className='flex flex-col'>
-          <p className='mb-6 font-semibold text-xl'>CUSTOMER SUPPORT</p>
-          <Link className='font-semibold text-gray-300 hover:text-white hover:underline underline-offset-4 text-sm mb-3' to='/track-order'>
+          <p className='mb-6 font-semibold text-xl text-[white]'>CUSTOMER SUPPORT</p>
+          <Link className='font-semibold text-[white] hover:text-[#FFC877] hover:underline underline-offset-4 text-sm mb-3' to='/track-order'>
             Track Your Order
           </Link>
-          <Link className=' font-semibold text-gray-300 hover:text-white hover:underline underline-offset-4 text-sm mb-3' to='/exchange-order'>
+          <Link className=' font-semibold text-[white] hover:text-[#FFC877] hover:underline underline-offset-4 text-sm mb-3' to='/exchange-order'>
             Return or Exchange Request
           </Link>
-          <Link className=' font-semibold text-gray-300 hover:text-white hover:underline underline-offset-4 text-sm mb-3' to='/cancel'>
+          <Link className=' font-semibold text-[white] hover:text-[#FFC877] hover:underline underline-offset-4 text-sm mb-3' to='/cancel'>
             Cancel Your Order
           </Link>
-          <Link className=' font-semibold text-gray-300 hover:text-white hover:underline underline-offset-4 text-sm mb-3' to='/contact'>
+          <Link className=' font-semibold text-[white] hover:text-[#FFC877] hover:underline underline-offset-4 text-sm mb-3' to='/contact'>
             Contact Us
           </Link>
         </div>
         <div className='flex flex-col'>
-          <p className='mb-6 font-semibold text-xl'>INFORMATION</p>
-          <Link className=' font-semibold text-gray-300 hover:text-white hover:underline underline-offset-4 text-sm mb-3' to='/retund'>
+          <p className='mb-6 font-semibold text-xl text-[white]'>INFORMATION</p>
+          <Link className=' font-semibold text-[white] hover:text-[#FFC877] hover:underline underline-offset-4 text-sm mb-3' to='/retund'>
             Return-Fefund-Exchange Policy
           </Link>
-          <Link className=' font-semibold text-gray-300 hover:text-white hover:underline underline-offset-4 text-sm mb-3' to='/shipping'>
+          <Link className=' font-semibold text-[white] hover:text-[#FFC877] hover:underline underline-offset-4 text-sm mb-3' to='/shipping'>
             Shipping Policy
           </Link>
-          <Link className=' font-semibold text-gray-300 hover:text-white hover:underline underline-offset-4 text-sm mb-3' to='/privacy'>
+          <Link className=' font-semibold text-[white] hover:text-[#FFC877] hover:underline underline-offset-4 text-sm mb-3' to='/privacy'>
             Privacy Policy
           </Link>
-          <Link className=' font-semibold text-gray-300 hover:text-white hover:underline underline-offset-4 text-sm mb-3' to='/service'>
+          <Link className=' font-semibold text-[white] hover:text-[#FFC877] hover:underline underline-offset-4 text-sm mb-3' to='/service'>
             Terms of Service
           </Link>
-          <Link className=' font-semibold text-gray-300 hover:text-white hover:underline underline-offset-4 text-sm mb-3' to='/about'>
+          <Link className=' font-semibold text-[white] hover:text-[#FFC877] hover:underline underline-offset-4 text-sm mb-3' to='/about'>
             About us
           </Link>
         </div>

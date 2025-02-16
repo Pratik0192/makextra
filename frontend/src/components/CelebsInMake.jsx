@@ -53,14 +53,14 @@ const CelebsInMake = () => {
         {/* Controls & Indicators */}
         <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex flex-col items-center space-y-3">
           {/* Navigation Buttons */}
-          <div className="flex space-x-6">
+          {/* <div className="flex space-x-6">
             <button onClick={handlePrev} className="bg-gray-800 text-white p-2 rounded-full hover:bg-gray-600">
               <ChevronLeft size={24} />
             </button>
             <button onClick={handleNext} className="bg-gray-800 text-white p-2 rounded-full hover:bg-gray-600">
               <ChevronRight size={24} />
             </button>
-          </div>
+          </div> */}
 
           {/* Indicators */}
           <div className="flex space-x-2">
@@ -69,7 +69,7 @@ const CelebsInMake = () => {
                 key={index}
                 onClick={() => setCurrentIndex(index)}
                 className={`w-3 h-3 rounded-full cursor-pointer ${
-                  currentIndex === index ? "bg-gray-800" : "bg-gray-400"
+                  currentIndex === index ? "bg-[#ffc877]" : "bg-gray-400"
                 }`}
               ></span>
             ))}

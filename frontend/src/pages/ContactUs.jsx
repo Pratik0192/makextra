@@ -11,7 +11,7 @@ const ContactUs = () => {
 
       <div className='text-gray-500 mt-4 flex flex-col gap-4'>
         <p className='font-bold text-gray-600'>CUSTOMER CARE:</p>
-        <p><span className='font-bold text-gray-600'>Email: </span> help@makextra.in</p>
+        <p><span className='font-bold text-gray-600'>Email: </span> help@Karuna.in</p>
         <p><span className='font-bold text-gray-600'>Whatsapp Number: </span> +91 9330597272</p>
       </div>
       <QueryForm />

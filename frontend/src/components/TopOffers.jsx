@@ -27,10 +27,10 @@ const TopOffers = () => {
   };
 
   return (
-    <div className="relative bg-[#DE3163] text-white py-2 flex items-center justify-center">
+    <div className="relative bg-gradient-to-b bg-[#560e13] to-[#8c1018] text-white py-2 flex items-center justify-center">
       <button 
         onClick={handlePrev} 
-        className="absolute left-15 text-white hover:text-gray-300 transition duration-300"
+        className="absolute left-15 text-[white] hover:text-gray-300 transition duration-300"
       >
         <ChevronLeft size={16} />
       </button>
@@ -43,7 +43,7 @@ const TopOffers = () => {
           {featureNames.map((feature, index) => (
             <div 
               key={index} 
-              className="inline-block w-full text-center text-sm px-4"
+              className="inline-block w-full text-center text-[white] text-sm px-4"
             >
               {feature}
             </div>
@@ -53,7 +53,7 @@ const TopOffers = () => {
 
       <button 
         onClick={handleNext} 
-        className="absolute right-15 text-white hover:text-gray-300 transition duration-300"
+        className="absolute right-15 text-[white] hover:text-gray-300 transition duration-300"
       >
         <ChevronRight size={16} />
       </button>

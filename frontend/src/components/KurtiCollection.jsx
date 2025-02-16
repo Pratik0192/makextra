@@ -35,7 +35,9 @@ const KurtiCollection = () => {
         }
       </motion.div>
       <div className='flex items-center justify-center mt-4'>
-        <button className='cursor-pointer bg-[#DE3163] text-white px-8 py-3 rounded-md text-sm border border-[white] hover:border hover:border-[#DE3163]'>view all</button>
+        <button className="cursor-pointer bg-gradient-to-r from-[#560e13] to-[#8c1018] text-white px-8 py-3 rounded-md text-sm border border-white hover:border-[#DE3163]">
+          View All
+        </button>
       </div>
     </div>
   )

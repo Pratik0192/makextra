@@ -32,37 +32,37 @@ const MobileNavigation = ({ menuOpen, setMenuOpen }) => {
         initial={{x: "-100%"}}
         animate={{ x: menuOpen ? 0 : "-100%" }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
-        className="fixed top-27 border-t border-gray-300 left-0 pt-4 w-screen h-screen bg-white shadow-md z-50 transition-transform duration-300 ease-in-out flex flex-col"
+        className="fixed top-27 left-0 pt-4 w-screen h-screen bg-gradient-to-r bg-[#560e13] to-[#8c1018] shadow-md z-50 transition-transform duration-300 ease-in-out flex flex-col"
       >
         {/* Navigation Links */}
         <ul className="flex-[3.5] px-6 space-y-6 text-md font-medium overflow-y-auto ">
           <li>
-            <Link to="/" className="block text-gray-700 hover:text-gray-900" onClick={() => setMenuOpen(false)}>
+            <Link to="/" className="block text-[#E9B466] hover:text-[#FFC877]" onClick={() => setMenuOpen(false)}>
               Home
             </Link>
           </li>
           <li>
-            <Link to="/allproducts" className="block text-gray-700 hover:text-gray-900" onClick={() => setMenuOpen(false)}>
+            <Link to="/allproducts" className="block text-[#e9b466] hover:text-[#ffc877]" onClick={() => setMenuOpen(false)}>
               New Arrivals
             </Link>
           </li>
           <li>
-            <Link to="/collections" className="block text-gray-700 hover:text-gray-900" onClick={() => setMenuOpen(false)}>
+            <Link to="/collections" className="block text-[#e9b466] hover:text-[#ffc877]" onClick={() => setMenuOpen(false)}>
               Trending Now
             </Link>
           </li>
           <li>
-            <Link to="/track-order" className="block text-gray-700 hover:text-gray-900" onClick={() => setMenuOpen(false)}>
+            <Link to="/track-order" className="block text-[#e9b466] hover:text-[#ffc877]" onClick={() => setMenuOpen(false)}>
               Track Your Order
             </Link>
           </li>
           <li>
-            <Link to="/support" className="text-gray-700 hover:text-gray-900 flex items-center justify-between" onClick={() => setMenuOpen(false)}>
-              Support <span className="text-gray-500">→</span>
+            <Link to="/support" className="text-[#e9b466] hover:text-[#ffc877] flex items-center justify-between" onClick={() => setMenuOpen(false)}>
+              Support <span className="text-[#e9b466]">→</span>
             </Link>
           </li>
           <li>
-            <Link to="/sale" className="block text-gray-700 hover:text-gray-900" onClick={() => setMenuOpen(false)}>
+            <Link to="/sale" className="block text-[#e9b466] hover:text-[#ffc877]" onClick={() => setMenuOpen(false)}>
               Sale
             </Link>
           </li>

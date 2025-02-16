@@ -86,7 +86,7 @@ const Cart = () => {
           <p className='flex justify-center md:justify-end text-xs text-gray-500 font-medium'>checkout.</p>
           <button 
             onClick={()=>navigate('/checkout')} 
-            className='bg-[#DE3163] text-white text-sm font-medium my-8 px-8 py-3 w-full rounded-md shadow-md cursor-pointer'
+            className='bg-gradient-to-r bg-[#560e13] to-[#8c1018] text-[white] text-sm font-medium my-8 px-8 py-3 w-full rounded-md shadow-md cursor-pointer'
           >
             Check out
           </button>

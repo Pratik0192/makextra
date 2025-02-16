@@ -1,3 +1,4 @@
+
 import React from 'react'
 import QueryForm from '../components/QueryForm'
 
@@ -7,7 +8,7 @@ const ReturnPolicy = () => {
       <h2 className='text-[#103948] text-2xl lg:text-5xl mb-8'>Return, Refund, and Exchange Policy</h2>
       <div className="text-gray-500">
         <p className='font-bold mb-2'>Return, Refund, and Exchange Policy</p>
-        <p>We want you to be completely satisfied with your purchase at Makextra. If you’re not, please review our policy below for returns, refunds, and exchanges.</p>
+        <p>We want you to be completely satisfied with your purchase at Karuna. If you’re not, please review our policy below for returns, refunds, and exchanges.</p>
         <p className='font-bold mb-2 mt-4'>1. Eligibility for Returns</p>
         <p>Items may be returned within [30 days] of delivery, provided they are unworn, unwashed, and in their original condition with all tags attached. Items marked as "final sale" are not eligible for return or exchange.</p>
         <p className='font-bold mb-2 mt-4'>2. Return Process</p>

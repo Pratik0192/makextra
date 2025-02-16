@@ -7,7 +7,7 @@ const ExchangeOrder = () => {
       <h2 className='text-2xl lg:text-5xl mb-8'>Return or Exchange Request</h2>
       <div className='text-gray-500 mt-4 flex flex-col gap-2'>
         <p className='font-bold'>Return or Exchange Request</p>
-        <p>At Makextra, we strive to make returns and exchanges as smooth as possible. If you need to request a return or exchange, please follow the steps below:</p>
+        <p>At Karuna, we strive to make returns and exchanges as smooth as possible. If you need to request a return or exchange, please follow the steps below:</p>
       </div>
 
       <div className='text-gray-500 mt-6 flex flex-col gap-2'>

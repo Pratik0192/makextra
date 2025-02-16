@@ -44,7 +44,7 @@ const BestSellers = () => {
       <div className="relative">
         {/* Left Button */}
         <button
-          className="absolute left-0 top-1/2 -translate-y-1/2 bg-white shadow-md p-2 rounded-full z-10 hidden md:block"
+          className="absolute left-0 top-1/2 -translate-y-1/2 bg-gradient-to-r from-[#560e13] to-[#8c1018] text-white shadow-md p-2 rounded-full z-10 hidden md:block"
           onClick={scrollLeft}
         >
           <ChevronLeft size={24} />
@@ -67,7 +67,7 @@ const BestSellers = () => {
 
         {/* Right Button */}
         <button
-          className="absolute right-0 top-1/2 -translate-y-1/2 bg-white shadow-md p-2 rounded-full z-10 hidden md:block"
+          className="absolute right-0 top-1/2 -translate-y-1/2 bg-gradient-to-r from-[#560e13] to-[#8c1018] text-white shadow-md p-2 rounded-full z-10 hidden md:block"
           onClick={scrollRight}
         >
           <ChevronRight size={24} />
@@ -76,7 +76,7 @@ const BestSellers = () => {
 
       {/* View All Button */}
       <div className="flex items-center justify-center mt-4">
-        <button className="cursor-pointer bg-[#DE3163] text-white px-8 py-3 rounded-md text-sm border border-[white] hover:border hover:border-[#DE3163]">
+        <button className="cursor-pointer bg-gradient-to-r from-[#560e13] to-[#8c1018] text-white px-8 py-3 rounded-md text-sm border border-white hover:border-[#DE3163]">
           View All
         </button>
       </div>

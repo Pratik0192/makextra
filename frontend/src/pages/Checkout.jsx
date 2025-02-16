@@ -112,7 +112,7 @@ const Checkout = () => {
 
       {/* Navbar of Checkout */}
       <div className='flex justify-between py-5 px-2 sm:px-4 md:px-8 lg:px-16 xl:px-32'>
-        <h2 className='text-xl font-semibold'>Makextra Fashion</h2>
+        <h2 className='text-xl font-semibold'>Karuna Jewellery and Paridhan</h2>
         <ShoppingBag className='w-6 h-6' />
       </div>
       <hr />

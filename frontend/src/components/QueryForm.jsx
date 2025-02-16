@@ -9,7 +9,7 @@ const QueryForm = () => {
       </div>
       <input className='border border-gray-300 px-4 py-2 w-full mt-4' type="number" placeholder='Phone number'/>
       <textarea className='border border-gray-300 px-4 py-2 w-full mt-4' placeholder='Comment'/>
-      <button className='bg-[#DE3163] text-white px-10 py-3 text-sm rounded-lg mt-8'>Send</button>
+      <button className='bg-gradient-to-r from-[#560e13] to-[#8c1018] text-[white] px-10 py-3 text-sm rounded-lg mt-8'>Send</button>
     </form>
   )
 }

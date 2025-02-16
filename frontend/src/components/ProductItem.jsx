@@ -21,7 +21,7 @@ const ProductItem = ({product}) => {
             alt={product.name} 
             className="w-full h-full object-cover transition-transform duration-300 ease-in-out hover:scale-105"
           />
-          <p className="absolute bottom-3 right-3 bg-[#DE3163] text-white text-xs px-3 py-1 rounded-2xl">SALE</p>
+          <p className="absolute bottom-3 right-3 bg-[#E9B466] text-[#8C1018] text-xs px-3 py-1 rounded-2xl">SALE</p>
           <div className="absolute bottom-3 left-3 flex mt-1 sm:mt-2 text-sm sm:text-base text-[#DE3163] font-semibold">
             <Star className='w-6 h-6 mr-2' /> {product.rating}
           </div>
