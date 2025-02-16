@@ -2,6 +2,8 @@ import React, { useContext, useEffect, useState } from 'react';
 import { ShopContext } from '../context/ShopContext';
 import Title from '../components/Title';
 import ProductItem from '../components/ProductItem';
+import { Cross, Filter, X } from 'lucide-react';
+import { motion, AnimatePresence } from "framer-motion"
 
 const AllProducts = () => {
   const { products } = useContext(ShopContext);
@@ -10,10 +12,12 @@ const AllProducts = () => {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [priceRange, setPriceRange] = useState([0, 5000]); // Min - Max price range
   const [sortBy, setSortBy] = useState('alphabetical'); // Default sorting
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const [isPriceOpen, setIsPriceOpen] = useState(false);
   const [isSortOpen, setIsSortOpen] = useState(false);
+
 
   const categories = [...new Set(products.map((item) => item.category))];
 
@@ -73,8 +77,16 @@ const AllProducts = () => {
     <div className='mt-10 mb-10 px-2 sm:px-4 md:px-8 lg:px-16 xl:px-32'>
       <Title text={'All Products'} />
 
+      {/* mobile filter button  */}
+      <button
+        className='md:hidden fixed bottom-5 right-5 z-50 bg-[#8c1018] text-white p-3 rounded-full shadow-lg'
+        onClick={() => setIsFilterOpen(true)}
+      >
+        <Filter className='w-7' />
+      </button>
+
       {/* Filter & Sort Section */}
-      <div className='flex justify-between items-center mt-5'>
+      <div className='hidden md:flex justify-between items-center mt-5'>
         <div className='flex gap-6'>
 
           {/* Category Filter Dropdown */}
@@ -152,7 +164,6 @@ const AllProducts = () => {
               </div>
             )}
           </div>
-
         </div>
 
         {/* Sorting Dropdown */}
@@ -219,6 +230,87 @@ const AllProducts = () => {
           )}
         </div>
       </div>
+
+      <AnimatePresence>
+        {isFilterOpen && (
+          <motion.div
+            initial={{ x: '100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '100%' }}
+            transition={{ type: 'tween', duration: 0.3 }}
+            className='fixed top-0 right-0 h-screen w-3/4 bg-white shadow-lg p-5 z-50 flex flex-col'
+          >
+            <button
+              className='text-gray-600 text-lg self-end mb-5'
+              onClick={() => setIsFilterOpen(false)}
+            >
+              <X className='text-red-500 w-7' />
+            </button>
+
+            <h3 className='text-lg font-semibold mb-3'>Filter Products</h3>
+
+            {/* category filter */}
+
+            <select 
+              className='border border-gray-300 text-sm px-4 py-2 rounded-lg bg-white shadow-md w-full'
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+            >
+              <option value="">All Categories</option>
+              {categories.map((category, index) => (
+                <option key={index} value={category}>{category}</option>
+              ))}
+            </select>
+
+            {/* price filter */}
+
+            <div className='mt-4'>
+              <h4 className='text-sm font-medium mb-2'>Price Range</h4>
+              <div className='flex items-center gap-2'>
+                <input
+                  type='number'
+                  className='border border-gray-300 px-2 py-1 w-20'
+                  placeholder='Min'
+                  value={priceRange[0]}
+                  onChange={(e) => setPriceRange([Number(e.target.value), priceRange[1]])}
+                />
+                <span>-</span>
+                <input
+                  type='number'
+                  className='border border-gray-300 px-2 py-1 w-20'
+                  placeholder='Max'
+                  value={priceRange[1]}
+                  onChange={(e) => setPriceRange([priceRange[0], Number(e.target.value)])}
+                />
+              </div>
+            </div>
+
+            {/* Sorting Options */}
+            <div className='mt-4'>
+              <h4 className='text-sm font-medium mb-2'>Sort By</h4>
+              <select
+                className='border border-gray-300 text-sm px-4 py-2 rounded-lg bg-white shadow-md w-full'
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+              >
+                <option value='alphabetical'>A - Z</option>
+                <option value='priceLowHigh'>Price: Low to High</option>
+                <option value='priceHighLow'>Price: High to Low</option>
+                <option value='dateNewOld'>Date: New to Old</option>
+                <option value='dateOldNew'>Date: Old to New</option>
+              </select>
+            </div>
+
+            <button
+              className='mt-6 w-full bg-[#8c1018] text-white py-2 rounded-lg'
+              onClick={() => setIsFilterOpen(false)}
+            >
+              Apply Filters
+            </button>
+
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Product Grid */}
       <div className='grid grid-cols-2 lg:grid-cols-3 gap-4 mt-10'>

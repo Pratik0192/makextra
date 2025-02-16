@@ -34,7 +34,7 @@ const Navbar = () => {
         <div className="flex justify-between items-center w-full">
           {/* Hamburger Icon (Visible only on Mobile) */}
           <button className="md:hidden" onClick={() => setMenuOpen(!menuOpen)}>
-            {menuOpen ? <X className="w-6 h-6 text-[#E9B466]" /> : <Menu className="w-6 h-6 text-[#E9B466]" />}
+            {menuOpen ? <X className="w-6 h-6 text-[white]" /> : <Menu className="w-6 h-6 text-[white]" />}
           </button>
 
           {/* Search Icon for Desktop (Hidden on mobile) */}
