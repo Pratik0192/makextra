@@ -2,6 +2,8 @@ import { createContext, useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom"
+import { AnimatePresence } from "framer-motion";
+import CustomToast from "../components/CustomToast";
 
 export const ShopContext = createContext();
 
@@ -14,11 +16,13 @@ const ShopContextProvider = (props) => {
   const [cartItems, setCartItems] = useState({});
   const [products, setProducts] = useState([]);
   const [token, setToken] = useState("")
+  const [toastData, setToastData] = useState(null);
+
   const navigate = useNavigate();
 
   const addToCart = async(product_id, quantity) => {
     if(!token) {
-      toast.error("please log in to add items to the cart");
+      setToastData({ message: "Please Log in to add items", type: "error" });
       navigate("/login");
       return;
     }
@@ -32,7 +36,12 @@ const ShopContextProvider = (props) => {
 
       if(response.data.success) {
         setCartItems(response.data.cart);
-        toast.success("Product added to the cart")
+
+        const product = products.find((p) => p._id === product_id);
+        if(product) {
+          setToastData({ name: product.name, image: product.images[0] })
+        }
+
       } else {
         toast.error(response.data.message);
       }
@@ -138,6 +147,8 @@ const ShopContextProvider = (props) => {
     }
   }, [cartItems])
 
+  
+
   const value = {
     products, currency,
     search, setSearch,
@@ -154,6 +165,13 @@ const ShopContextProvider = (props) => {
   return (
     <ShopContext.Provider value={value}>
       {props.children}
+
+      <AnimatePresence>
+        {toastData && (
+          <CustomToast product={toastData} onClose={() => setToastData(null)} />
+        )}
+      </AnimatePresence>
+
     </ShopContext.Provider>
   )
 }
