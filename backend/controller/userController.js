@@ -114,4 +114,20 @@ const adminLogin = (req,res) => {
   }
 }
 
-export { registerUser, loginUser, getUserProfile, adminLogin };
+const getAllUsers = async(req, res) => {
+  try {
+    const users = await UserModel.find().select('-password');
+
+    if(users.length === 0) {
+      return res.status(404).json({ success: true,  message: "no users found"});
+    }
+
+    res.json({ success: true, users })
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+}
+
+export { registerUser, loginUser, getUserProfile, adminLogin, getAllUsers };

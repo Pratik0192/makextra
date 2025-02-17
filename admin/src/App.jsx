@@ -9,6 +9,8 @@ import { Routes, Route } from "react-router-dom"
 import AddProducts from './pages/AddProducts'
 import AllProducts from './pages/AllProducts'
 import Orders from './pages/Orders'
+import AllUsers from './pages/AllUsers'
+import SingleUser from './pages/SingleUser'
 
 export const backendUrl = import.meta.env.VITE_BACKEND_URL
 export const currency = "Rs."
@@ -39,6 +41,8 @@ const App = () => {
                   <Route path='/add' element={ <AddProducts /> } />
                   <Route path='/list' element={<AllProducts />} />
                   <Route path='/order' element={<Orders />} />
+                  <Route path='/users' element={ <AllUsers /> } />
+                  <Route path='/user/:userId' element={ <SingleUser /> } />
                 </Routes>
               </div>
             </div>

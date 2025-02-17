@@ -1,29 +1,112 @@
-import React from 'react'
-import { NavLink } from "react-router-dom"
-import order from "../assets/order_icon.png"
-import parcel from "../assets/parcel_icon.svg"
-import add from "../assets/add_icon.png"
-import { CirclePlus, List, Package } from "lucide-react"
+import React, { useState } from 'react';
+import { NavLink } from "react-router-dom";
+import { CirclePlus, List, Menu, Package, ChevronDown, ChevronUp, User } from "lucide-react";
 
 const Sidebar = () => {
+  const [isCollapsed, setIsCollapsed] = useState(false); // State to control sidebar collapse
+  const [isProductsOpen, setIsProductsOpen] = useState(false); // State to toggle Products section
+  const [isOrdersOpen, setIsOrdersOpen] = useState(false); // State to toggle Orders section
+  const [isUsersOpen, setIsUsersOpen] = useState(false); // State to toggle Users section
+
   return (
-    <div className='w-[18%] min-h-screen bg-[#8c1018]'>
-      <div className='flex flex-col gap-4 pt-6 pl-[20%] text-[15px] '>
-        <NavLink className="flex items-center gap-3 border border-gray-300 border-r-0 px-3 py-2 rounded-lg" to="/add">
-          <CirclePlus className='w-7 text-white' />
-          <p className='hidden text-white md:block'>Add Products</p>
-        </NavLink>
-        <NavLink className="flex items-center gap-3 border border-gray-300 border-r-0 px-3 py-2 rounded-lg" to="/list">
-          <List className='w-7 text-white' />
-          <p className='hidden text-white md:block'>List Products</p>
-        </NavLink>
-        <NavLink className="flex items-center gap-3 border border-gray-300 border-r-0 px-3 py-2 rounded-lg" to="/order">
-          <Package className='w-7 text-white' />
-          <p className='hidden text-white md:block'>Orders</p>
-        </NavLink>
+    <div className={`min-h-screen transition-all duration-300 ${isCollapsed ? 'w-[5%]' : 'w-[18%]'} bg-[#8c1018]`}>
+      <div className="flex flex-col gap-4 pt-6 pl-[20%] text-[15px]">
+        <button
+          className="text-white px-2 py-1"
+          onClick={() => setIsCollapsed(!isCollapsed)} // Toggle the sidebar collapse
+        >
+          {isCollapsed ? <Menu className="w-6" /> : <Menu className="w-6" />} {/* Toggle icon */}
+        </button>
+
+        {/* Products Section */}
+        <div className="flex flex-col">
+          <button
+            className="flex items-center gap-3 px-3 py-2 rounded-lg text-white"
+            onClick={() => setIsProductsOpen(!isProductsOpen)} // Toggle Products section
+          >
+            <span className="text-white">{isProductsOpen ? <ChevronUp /> : <ChevronDown />}</span>
+            {!isCollapsed && <p>Products</p>}
+          </button>
+          {isProductsOpen && (
+            <div className="pl-5">
+              <NavLink
+                className="flex items-center gap-3 px-3 py-2 rounded-lg"
+                to="/add"
+              >
+                <CirclePlus className='w-7 text-white' />
+                {!isCollapsed && <p className='text-white'>Add Products</p>}
+              </NavLink>
+              <NavLink
+                className="flex items-center gap-3 px-3 py-2 rounded-lg"
+                to="/list"
+              >
+                <List className='w-7 text-white' />
+                {!isCollapsed && <p className='text-white'>List Products</p>}
+              </NavLink>
+            </div>
+          )}
+        </div>
+
+        {/* Orders Section */}
+        <div className="flex flex-col">
+          <button
+            className="flex items-center gap-3 px-3 py-2 rounded-lg text-white"
+            onClick={() => setIsOrdersOpen(!isOrdersOpen)} // Toggle Orders section
+          >
+            <span className="text-white">{isOrdersOpen ? <ChevronUp /> : <ChevronDown />}</span>
+            {!isCollapsed && <p>Orders</p>}
+          </button>
+          {isOrdersOpen && (
+            <div className="pl-5">
+              <NavLink
+                className="flex items-center gap-3 px-3 py-2 rounded-lg"
+                to="/order"
+              >
+                <Package className='w-7 text-white' />
+                {!isCollapsed && <p className='text-white'>All Orders</p>}
+              </NavLink>
+              <NavLink
+                className="flex items-center gap-3 px-3 py-2 rounded-lg"
+                to="/orders/pending"
+              >
+                <Package className='w-7 text-white' />
+                {!isCollapsed && <p className='text-white'>Pending Orders</p>}
+              </NavLink>
+              <NavLink
+                className="flex items-center gap-3 px-3 py-2 rounded-lg"
+                to="/orders/completed"
+              >
+                <Package className='w-7 text-white' />
+                {!isCollapsed && <p className='text-white'>Completed Orders</p>}
+              </NavLink>
+            </div>
+          )}
+        </div>
+
+        {/* Users Section */}
+        <div className="flex flex-col">
+          <button
+            className="flex items-center gap-3 px-3 py-2 rounded-lg text-white"
+            onClick={() => setIsUsersOpen(!isUsersOpen)} // Toggle Users section
+          >
+            <span className="text-white">{isUsersOpen ? <ChevronUp /> : <ChevronDown />}</span>
+            {!isCollapsed && <p>Users</p>}
+          </button>
+          {isUsersOpen && (
+            <div className="pl-5">
+              <NavLink
+                className="flex items-center gap-3 px-3 py-2 rounded-lg"
+                to="/users"
+              >
+                <User className='w-7 text-white' />
+                {!isCollapsed && <p className='text-white'>All Users</p>}
+              </NavLink>
+            </div>
+          )}
+        </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Sidebar
+export default Sidebar;

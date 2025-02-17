@@ -37,13 +37,8 @@ const CustomToast = ({ product, onClose }) => {
             </div>
           </div>
           <div className='flex flex-col gap-2'>
-            
               <button className='border-2 text-gray-600 font-medium border-gray-400 rounded-sm py-2'>view cart</button>
-            
-            
               <button className='bg-gradient-to-r from-[#560e13] to-[#8c1018] text-white rounded-md py-2'> checkout</button>
-            
-            
             <p className='text-center underline underline-offset-4'>Continue shopping</p>
           </div>
         </div>
