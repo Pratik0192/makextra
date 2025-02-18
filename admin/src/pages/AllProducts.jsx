@@ -1,75 +1,102 @@
-import axios from "axios"
-import React from 'react'
-import { useState } from 'react'
-import { backendUrl, currency } from "../App"
-import { useEffect } from "react"
-import { toast } from "react-toastify"
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { backendUrl, currency } from "../App";
+import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 const AllProducts = () => {
-
-  const [list, setList] = useState([])
+  const [products, setProducts] = useState([]);
 
   const fetchProducts = async () => {
     try {
-      const response = await axios.get(backendUrl + '/api/product/list')
+      const response = await axios.get(`${backendUrl}/api/product/list`);
       if (response.data.success) {
-        setList(response.data.products);
+        setProducts(response.data.products);
       } else {
         toast.error(response.data.message);
       }
     } catch (error) {
       console.log(error);
-      toast.error(error.message)
+      toast.error(error.message);
     }
-  }
+  };
 
-  const removeProduct = async(id) => {
+  const removeProduct = async (id) => {
     try {
-      const response = await axios.post(backendUrl+'/api/product/remove', {id});
-      if(response.data.success) {
+      const response = await axios.post(`${backendUrl}/api/product/remove`, { id });
+      if (response.data.success) {
         toast.success(response.data.message);
         await fetchProducts();
       } else {
-        toast.error(response.data.message)
+        toast.error(response.data.message);
       }
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   useEffect(() => {
-    fetchProducts()
-  }, [])
+    fetchProducts();
+  }, []);
 
   return (
-    <>
-      <p className='mb-2 text-lg font-semibold'>ALL Product List</p>
-
-      <div className="w-full overflow-x-auto">
-        {/* List Table Title */}
-        <div className="hidden md:grid grid-cols-6 items-center py-2 px-3 border border-gray-300 bg-gray-100 text-sm font-semibold">
-          <p>Image</p>
-          <p>Name</p>
-          <p>Category</p>
-          <p>Original Price</p>
-          <p>Discounted Price</p>
-          <p className='text-center'>Action</p>
-        </div>
-
-        {/* Product List */}
-        {list.map((item, index) => (
-          <div key={index} className="grid grid-cols-3 md:grid-cols-6 items-center gap-3 py-2 px-3 text-sm border-b border-gray-200">
-            <img className='w-12 h-12 object-cover rounded-md' src={item.images[0]} alt={item.name} />
-            <p className="truncate">{item.name}</p>
-            <p className="truncate">{item.category}</p>
-            <p>{currency}{item.original_price}</p>
-            <p>{currency}{item.discounted_price}</p>
-            <p onClick={() => removeProduct(item._id)} className='text-right md:text-center cursor-pointer text-lg text-red-500 hover:text-red-700 font-bold'>X</p>
-          </div>
-        ))}
+    <div className="p-4">
+      <h2 className="text-2xl font-semibold mb-4">All Products</h2>
+      <div className="overflow-x-auto">
+        <table className="w-full border-collapse border border-gray-300">
+          <thead className="bg-gray-800 text-white">
+            <tr>
+              <th className="p-3 border border-gray-300">#</th>
+              <th className="p-3 border border-gray-300">Image</th>
+              <th className="p-3 border border-gray-300">Name</th>
+              <th className="p-3 border border-gray-300">Category</th>
+              <th className="p-3 border border-gray-300">Original Price</th>
+              <th className="p-3 border border-gray-300">Discounted Price</th>
+              <th className="p-3 border border-gray-300">Stock</th>
+              <th className="p-3 border border-gray-300">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {products.length > 0 ? (
+              products.map((product, index) => (
+                <tr key={product._id} className="odd:bg-gray-100 even:bg-white text-center hover:bg-gray-200 transition">
+                  <td className="p-3 border border-gray-300">{index + 1}</td>
+                  <td className="p-3 border border-gray-300">
+                    <img className="w-12 h-12 object-cover mx-auto rounded-md" src={product.images[0]} alt={product.name} />
+                  </td>
+                  <td className="p-3 border border-gray-300">
+                    <Link className="cursor-pointer hover:underline" to={`/product/${product._id}`}>
+                      {product.name}
+                    </Link>
+                  </td>
+                  <td className="p-3 border border-gray-300">{product.category}</td>
+                  <td className="p-3 border border-gray-300">{currency}{product.original_price}</td>
+                  <td className="p-3 border border-gray-300">{currency}{product.discounted_price}</td>
+                  <td className={`p-3 border border-gray-300 font-semibold ${product.stock > 5 ? "text-green-600" : "text-red-500"}`}>
+                    {product.stock}
+                  </td>
+                  <td className="p-3 border border-gray-300">
+                    <button
+                      onClick={() => removeProduct(product._id)}
+                      className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded"
+                    >
+                      Remove
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="8" className="p-3 text-center border border-gray-300">
+                  No products found
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
       </div>
-    </>
-  )
-}
+    </div>
+  );
+};
 
-export default AllProducts
+export default AllProducts;

@@ -44,6 +44,11 @@ const AddProducts = () => {
   const onSubmitHandler = async(e) => {
     e.preventDefault();
 
+    if(newCategory && category.trim() === "") {
+      toast.error("please enter a new category");
+      return ;
+    }
+
     try {
       const formData = new FormData()
 
@@ -141,12 +146,12 @@ const AddProducts = () => {
           className='w-full max-w-[500px] px-3 py-2' 
           value={category} 
           onChange={(e) => {
-            if( e.target.value === "new") {
+            if (e.target.value === "new") {
               setNewCategory(true);
-              setCategory("")
+              setCategory("");  // Keep this empty so user can type
             } else {
-              setNewCategory(false)
-              setCategory(e.target.value)
+              setNewCategory(false);
+              setCategory(e.target.value); // Keep the selected category
             }
           }}
           required

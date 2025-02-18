@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink } from "react-router-dom";
-import { CirclePlus, List, Menu, Package, ChevronDown, ChevronUp, User } from "lucide-react";
+import { CirclePlus, List, Menu, Package, ChevronDown, ChevronUp, User, ListOrdered, BookUser } from "lucide-react";
 
 const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false); // State to control sidebar collapse
@@ -40,8 +40,8 @@ const Sidebar = () => {
                 className="flex items-center gap-3 px-3 py-2 rounded-lg"
                 to="/list"
               >
-                <List className='w-7 text-white' />
-                {!isCollapsed && <p className='text-white'>List Products</p>}
+                <ListOrdered className='w-7 text-white' />
+                {!isCollapsed && <p className='text-white'>Inventory</p>}
               </NavLink>
             </div>
           )}
@@ -98,7 +98,7 @@ const Sidebar = () => {
                 className="flex items-center gap-3 px-3 py-2 rounded-lg"
                 to="/users"
               >
-                <User className='w-7 text-white' />
+                <BookUser className='w-7 text-white' />
                 {!isCollapsed && <p className='text-white'>All Users</p>}
               </NavLink>
             </div>
