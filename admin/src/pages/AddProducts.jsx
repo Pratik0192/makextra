@@ -144,17 +144,16 @@ const AddProducts = () => {
         <p className="mb-2">Category</p>
         <select 
           className='w-full max-w-[500px] px-3 py-2' 
-          value={category} 
+          value={newCategory ? "new" : category} 
           onChange={(e) => {
             if (e.target.value === "new") {
               setNewCategory(true);
-              setCategory("");  // Keep this empty so user can type
+              setCategory("");  // Keep empty for new category input
             } else {
               setNewCategory(false);
-              setCategory(e.target.value); // Keep the selected category
+              setCategory(e.target.value); // Keep selected category
             }
           }}
-          required
         >
           <option value="">Select Category</option>
           {categories.map((cat, index) => (
@@ -174,7 +173,7 @@ const AddProducts = () => {
             className='w-full max-w-[500px] px-3 py-2'
             value={category}
             onChange={(e) => setCategory(e.target.value)}
-            required
+            required={newCategory}  // Required only when adding a new category
           />
         </div>
       )}
