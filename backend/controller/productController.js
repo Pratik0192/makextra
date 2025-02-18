@@ -76,5 +76,53 @@ const singleProduct = async(req, res) => {
   }
 }
 
+const updateProduct = async(req, res) => {
+  try {
+    
+    const { productId } = req.params;
+    const { name, original_price, discounted_price, stock, product_details, category, rating } = req.body;
 
-export { addProduct, listProducts, removeProduct, singleProduct }
+    //convert product_details from cmma separated string to array 
+    const productDetailsArray = Array.isArray(product_details) ? product_details : product_details.split(",");
+
+    //handle image uploads if any
+    const images = req.files ? Object.values(req.files).map(file => file[0]) : [];
+
+    let imagesUrl = [];
+    if(images.length > 0) {
+      imagesUrl = await Promise.all(
+        images.map(async(item) => {
+          let result = await cloudinary.uploader.upload(item.path, {resource_type: 'image'});
+          return result.secure_url;
+        })
+      )
+    }
+
+    const updatedProduct = await ProductModel.findByIdAndUpdate(
+      productId,
+      {
+        name,
+        original_price,
+        discounted_price,
+        stock,
+        category,
+        rating,
+        product_details: productDetailsArray,
+        ...(imagesUrl.length > 0 && { images: imagesUrl }), // Update images only if new ones are uploaded
+      },
+      { new: true }
+    );
+
+    if (!updatedProduct) {
+      return res.status(404).json({ success: false, message: "Product not found" });
+    }
+
+    res.json({ success: true, message: "Product updated successfully", product: updatedProduct });
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+}
+
+export { addProduct, listProducts, removeProduct, singleProduct, updateProduct }
