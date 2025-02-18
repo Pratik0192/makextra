@@ -12,6 +12,7 @@ import Orders from './pages/Orders'
 import AllUsers from './pages/AllUsers'
 import SingleUser from './pages/SingleUser'
 import SingleProduct from './pages/SingleProduct'
+import Dashboard from './pages/Dashboard'
 
 export const backendUrl = import.meta.env.VITE_BACKEND_URL
 export const currency = "Rs."
@@ -39,6 +40,7 @@ const App = () => {
               <Sidebar />
               <div className="w-[70%] mx-auto ml-[max(5vw, 25px)] my-8 text-gray-600 text-base ">
                 <Routes>
+                  <Route path='/' element={ <Dashboard /> } />
                   <Route path='/add' element={ <AddProducts /> } />
                   <Route path='/list' element={<AllProducts />} />
                   <Route path='/order' element={<Orders />} />
