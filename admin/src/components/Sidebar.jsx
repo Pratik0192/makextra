@@ -113,6 +113,16 @@ const Sidebar = () => {
             </div>
           )}
         </div>
+
+
+        <NavLink
+          className="flex items-center gap-3 px-3 py-2 rounded-lg"
+          to='/banner'
+        >
+          <Home className='w-7 text-white' />
+          {!isCollapsed && <p className="text-white">Banner</p> }
+        </NavLink>
+
       </div>
     </div>
   );

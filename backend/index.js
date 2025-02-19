@@ -9,6 +9,7 @@ import addessRouter from "./routes/addressroutes.js"
 import reviewRouter from "./routes/reviewRoutes.js"
 import cartRouter from "./routes/cartRoutes.js"
 import orderRouter from "./routes/orderRoutes.js"
+import bannerRouter from "./routes/bannerRoutes.js"
 
 //app config
 
@@ -28,6 +29,7 @@ app.use('/api/address', addessRouter);
 app.use('/api/review', reviewRouter);
 app.use('/api/cart', cartRouter);
 app.use('/api/order', orderRouter);
+app.use('/api/banner', bannerRouter);
 
 app.get('/', (req, res) => {
   res.send("API WORKING");
