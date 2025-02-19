@@ -1,16 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import hero_1 from "../assets/hero_1.webp";
-import hero_2 from "../assets/hero_2.webp";
-import hero_3 from "../assets/hero_3.webp";
-import hero_4 from "../assets/hero_4.webp";
-import hero_5 from "../assets/hero_5.webp";
 import { ShopContext } from "../context/ShopContext";
 import axios from "axios";
-
-
-
-//const images = [hero_1, hero_2, hero_3, hero_4, hero_5];
 
 const Hero = () => {
   const { backendUrl } = useContext(ShopContext);

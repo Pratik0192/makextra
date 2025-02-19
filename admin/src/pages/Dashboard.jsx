@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { ShoppingCart, Users, Package, CheckCircle, BarChart } from "lucide-react";
 import Widget from "../components/Widget";
-import { Doughnut } from "react-chartjs-2";
+import { Bar, Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import axios from "axios";
 import { backendUrl } from "../App";
@@ -13,6 +13,7 @@ const Dashboard = () => {
 
   const [users, setUsers] = useState([]);
   const [orders, setOrders] = useState([]);
+  const [allOrders, setAllOrders] = useState([])
 
   const fetchAllUsers = async() => {
     try {
@@ -27,6 +28,7 @@ const Dashboard = () => {
     try {
       const response = await axios.post(backendUrl + '/api/order/list', {});
       setOrders(response.data.orders.slice(0, 5));
+      setAllOrders(response.data.orders)
     } catch (error) {
       console.error("error in fetching orders:", error.response?.data || error.message);
     }
@@ -37,10 +39,73 @@ const Dashboard = () => {
     fetchAllOrders();
   }, []);
 
-  console.log(users);
-  console.log(orders);
+  // console.log(users);
+  // console.log(orders);
+  console.log(allOrders);
 
-  const doughnutOptions = { responsive: true, maintainAspectRatio: false, cutout: "70%" };
+  const prepareChartData = () => {
+    const today = new Date();
+    const dates = [];
+    const orderCounts = []
+
+    for(let i = 29; i>= 0; i--) {
+      const date = new Date();
+      date.setDate(today.getDate() - i);
+      const dateString = date.toISOString().split('T')[0];
+      dates.push(dateString);
+      orderCounts.push[0]
+    }
+
+    allOrders.forEach(order => {
+      const orderDate = new Date(order.createdAt).toISOString().split('T')[0];
+      const index = dates.indexOf(orderDate);
+      if(index !== -1) {
+        orderCounts[index]++;
+      }
+    });
+
+    return {
+      labels: dates,
+      datasets: [
+        {
+          label: "Number of Orders",
+          data: orderCounts,
+          backgroundColor: '#8C1018'
+        }
+      ]
+    }
+  };
+
+  const chartOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        display: false,
+      },
+      title: {
+        display: true,
+        text: 'Orders in the Last 30 Days',
+      },
+    },
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: 'Date',
+        },
+      },
+      y: {
+        title: {
+          display: true,
+          text: 'Number of Orders',
+        },
+        beginAtZero: true,
+      },
+    },
+  }
+  
+
+  const doughnutOptions = { responsive: true, maintainAspectRatio: true, cutout: "70%" };
 
   const newCustomersData = {
     labels: ["New", "Returning"],
@@ -176,6 +241,13 @@ const Dashboard = () => {
           </table>
         </div>
       </div>
+
+      {/* total sales in last 30 days */}
+      {/* <div className="bg-white p-4 rounded-lg shadow-lg mt-8">
+        <h3 className="text-lg font-semibold mb-4">Orders in the Last 30 Days</h3>
+        <Bar data={prepareChartData()} options={chartOptions} />
+      </div> */}
+
     </div>
   );
 };

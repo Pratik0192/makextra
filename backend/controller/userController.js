@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import UserModel from "../models/userModel.js";
+import OrderModel from "../models/orderModel.js";
 
 // User Registration
 const registerUser = async (req, res) => {
@@ -130,4 +131,21 @@ const getAllUsers = async(req, res) => {
   }
 }
 
-export { registerUser, loginUser, getUserProfile, adminLogin, getAllUsers };
+const getUserOrders = async(req, res) => {
+  try {
+    const { userId } = req.params;
+    const orders = await OrderModel.find({ userId });
+
+    if(!orders.length) {
+      return res.status(404).json({ success: false, message: "No orders found for this user" });
+    }
+
+    res.json({ success: true, orders })
+    
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+}
+
+export { registerUser, loginUser, getUserProfile, adminLogin, getAllUsers, getUserOrders };

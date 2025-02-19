@@ -2,30 +2,30 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { backendUrl } from '../App';
-import { User, Mail, Phone, Shield, Calendar, X } from "lucide-react";
+import { User, Mail, Phone, Shield, Calendar, ShoppingBag } from "lucide-react";
+import moment from "moment"
 
 const SingleUser = () => {
   const { userId } = useParams();
   const [userData, setUserData] = useState(null);
-  const [emailMessage, setEmailMessage] = useState("");
-  const [whatsappMessage, setWhatsappMessage] = useState("");
-  const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
-  const [isWhatsappModalOpen, setIsWhatsappModalOpen] = useState(false);
+  const [orders, setOrders] = useState([])
 
   useEffect(() => {
     const fetchAllUsers = async () => {
       try {
-        const response = await axios.get(`${backendUrl}/api/user/allusers`);
-        const user = response.data.users.find((user) => user._id === userId);
-
+        const userResponse = await axios.get(`${backendUrl}/api/user/allusers`);
+        const user = userResponse.data.users.find((u) => u._id === userId);
+  
         if (user) {
           setUserData(user);
-          console.log("User Data:", user);
-        } else {
-          console.log("User not found");
+        }
+  
+        const ordersResponse = await axios.get(`${backendUrl}/api/user/orders/${userId}`);
+        if (ordersResponse.data.success) {
+          setOrders(ordersResponse.data.orders);
         }
       } catch (error) {
-        console.error("Error fetching users:", error.response?.data || error.message);
+        console.error("Error fetching data:", error.response?.data || error.message);
       }
     };
 
@@ -35,106 +35,64 @@ const SingleUser = () => {
   if (!userData) {
     return <div className="text-center text-xl font-semibold mt-10">Loading...</div>;
   }
+  console.log(userData);
+  console.log(orders);
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
-      <div className="bg-white shadow-xl rounded-xl p-6 max-w-md w-full text-center">
-        <div className="flex justify-center mb-4">
-          <User className="w-16 h-16 text-gray-700" />
+    <div className="flex flex-col items-center min-h-screen p-4 space-y-6">
+      
+      {/* User Info Card */}
+      <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-3xl">
+        <h2 className="text-2xl font-semibold text-gray-800 flex items-center mb-4">
+          <User className="mr-2" /> User Details
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <p className="flex items-center text-gray-600">
+            <User className="mr-2" /> <span><strong>Name:</strong> {userData.name}</span>
+          </p>
+          <p className="flex items-center text-gray-600">
+            <Mail className="mr-2" /> <span><strong>Email:</strong> {userData.email}</span>
+          </p>
+          <p className="flex items-center text-gray-600">
+            <Phone className="mr-2" /> <span><strong>Mobile:</strong> {userData.mobile_number}</span>
+          </p>
+          <p className="flex items-center text-gray-600">
+            <Shield className="mr-2" /> <span><strong>Role:</strong> {userData.role}</span>
+          </p>
+          <p className="flex items-center text-gray-600">
+            <Calendar className="mr-2" /> <span><strong>Created At:</strong> {moment(userData.createdAt).format('DD MMM YYYY')}</span>
+          </p>
+          <p className="flex items-center text-gray-600">
+            <Calendar className="mr-2" /> <span><strong>Updated At:</strong> {moment(userData.updatedAt).format('DD MMM YYYY')}</span>
+          </p>
         </div>
-        <h2 className="text-2xl font-bold text-gray-900">{userData.name}</h2>
-        <p className="text-gray-500">{userData.role === "admin" ? "Administrator" : "User"}</p>
+      </div>
 
-        <div className="mt-4 space-y-3 text-gray-700 text-left">
-          {/* Email Section with Modal */}
-          <div className="flex items-center gap-2 cursor-pointer hover:text-blue-600" onClick={() => setIsEmailModalOpen(true)}>
-            <Mail className="w-5 h-5 text-blue-500" />
-            <span>{userData.email}</span>
-          </div>
-
-          {/* WhatsApp Section with Modal */}
-          <div className="flex items-center gap-2 cursor-pointer hover:text-green-600" onClick={() => setIsWhatsappModalOpen(true)}>
-            <Phone className="w-5 h-5 text-green-500" />
-            <span>{userData.mobile_number}</span>
-          </div>
-
-          {/* Role & Dates */}
-          <div className="flex items-center gap-2">
-            <Shield className="w-5 h-5 text-purple-500" />
-            <span className="capitalize">{userData.role}</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <Calendar className="w-5 h-5 text-red-500" />
-            <span>Joined: {new Date(userData.createdAt).toLocaleDateString()}</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <Calendar className="w-5 h-5 text-gray-500" />
-            <span>Updated: {new Date(userData.updatedAt).toLocaleDateString()}</span>
-          </div>
-        </div>
-
-        {/* Email Modal */}
-        {isEmailModalOpen && (
-          <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center">
-            <div className="bg-white rounded-lg p-6 w-96">
-              <div className="flex justify-between mb-4">
-                <h3 className="text-xl font-semibold">Send Email to {userData.name}</h3>
-                <button onClick={() => setIsEmailModalOpen(false)} className="text-gray-500 hover:text-gray-700">
-                  <X className="w-5 h-5" />
+      {/* Orders List Card */}
+      <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-3xl">
+        <h2 className="text-2xl font-semibold text-gray-800 flex items-center mb-4">
+          <ShoppingBag className="mr-2" /> User Orders
+        </h2>
+        {orders.length > 0 ? (
+          <div className="space-y-3">
+            {orders.map((order) => (
+              <div key={order._id} className="p-4 border rounded-lg shadow-sm bg-gray-50 flex justify-between items-center">
+                <div>
+                  <p><strong>Order ID:</strong> {order._id}</p>
+                  <p><strong>Order Date:</strong> {moment(order.createdAt).format('DD MMM YYYY')}</p>
+                  <p><strong>Price:</strong> ₹{order.amount}</p>
+                </div>
+                <button 
+                  className="px-4 py-2 bg-[#8C1018] text-white rounded-lg hover:bg-[#6B0C13] transition"
+                  onClick={() => alert(`Order ID: ${order._id}`)} // Placeholder for "See Details" action
+                >
+                  See Details
                 </button>
               </div>
-              <input 
-                type="email" 
-                value={userData.email} 
-                readOnly 
-                className="w-full p-2 border border-gray-300 rounded mb-4"
-              />
-              <textarea 
-                placeholder="Type your message here..." 
-                value={emailMessage} 
-                onChange={(e) => setEmailMessage(e.target.value)}
-                className="w-full p-2 border border-gray-300 rounded mb-4"
-              />
-              <button 
-                onClick={() => alert(`Email Sent: ${emailMessage}`)} 
-                className="w-full py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-              >
-                Send Email
-              </button>
-            </div>
+            ))}
           </div>
-        )}
-
-        {/* WhatsApp Modal */}
-        {isWhatsappModalOpen && (
-          <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center">
-            <div className="bg-white rounded-lg p-6 w-96">
-              <div className="flex justify-between mb-4">
-                <h3 className="text-xl font-semibold">Send WhatsApp Message to {userData.name}</h3>
-                <button onClick={() => setIsWhatsappModalOpen(false)} className="text-gray-500 hover:text-gray-700">
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
-              <input 
-                type="text" 
-                value={userData.mobile_number} 
-                readOnly 
-                className="w-full p-2 border border-gray-300 rounded mb-4"
-              />
-              <textarea 
-                placeholder="Type your message here..." 
-                value={whatsappMessage} 
-                onChange={(e) => setWhatsappMessage(e.target.value)}
-                className="w-full p-2 border border-gray-300 rounded mb-4"
-              />
-              <button 
-                onClick={() => window.open(`https://wa.me/${userData.mobile_number}?text=${encodeURIComponent(whatsappMessage)}`, '_blank')}
-                className="w-full py-2 bg-green-500 text-white rounded hover:bg-green-600"
-              >
-                Send WhatsApp Message
-              </button>
-            </div>
-          </div>
+        ) : (
+          <p className="text-gray-600">No orders found for this user.</p>
         )}
       </div>
     </div>
