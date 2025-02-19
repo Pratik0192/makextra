@@ -92,7 +92,7 @@ const AllProducts = () => {
           {/* Category Filter Dropdown */}
           <div className='relative dropdown'>
             <button 
-              className='border border-gray-300 text-sm px-4 py-2 rounded-lg bg-white shadow-md cursor-pointer'
+              className='border border-gray-300 text-sm text-white px-4 py-2 rounded-lg bg-[#8C1018] shadow-md cursor-pointer hover:border hover:border-[#8C1018]'
               onClick={() => {
                 setIsCategoryOpen(!isCategoryOpen);
                 setIsPriceOpen(false);
@@ -103,9 +103,9 @@ const AllProducts = () => {
             </button>
 
             {isCategoryOpen && (
-              <div className={`absolute left-0 mt-2 w-48 bg-white border border-gray-300 rounded-lg shadow-lg p-2 z-10 transition-all duration-200 ease-in-out ${isCategoryOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}`}>
+              <div className={`absolute left-0 mt-2 w-48 bg-[#8C1018] border border-[#8C1018] rounded-lg shadow-lg p-2 z-10 transition-all duration-200 ease-in-out ${isCategoryOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}`}>
                 <p 
-                  className='p-2 text-sm text-gray-700 cursor-pointer hover:bg-gray-200' 
+                  className='p-2 text-sm text-[white] cursor-pointer hover:bg-[#560e13]' 
                   onClick={() => setSelectedCategory('')}
                 >
                   All
@@ -114,7 +114,7 @@ const AllProducts = () => {
                 {categories.map((category, index) => (
                   <p 
                     key={index} 
-                    className='p-2 cursor-pointer text-sm text-gray-600 hover:bg-gray-200'
+                    className='p-2 cursor-pointer text-sm text-[white] hover:bg-[#560e13]'
                     onClick={() => {
                       setSelectedCategory(category);
                       setIsCategoryOpen(false);
@@ -130,7 +130,7 @@ const AllProducts = () => {
           {/* Price Filter Dropdown */}
           <div className='relative dropdown'>
             <button 
-              className='border border-gray-300 text-sm px-4 py-2 rounded-lg bg-white shadow-md cursor-pointer'
+              className='border border-gray-300 text-sm text-white px-4 py-2 rounded-lg bg-[#8c1018] shadow-md cursor-pointer hover:border hover:border-[#8c1018]'
               onClick={() => {
                 setIsPriceOpen(!isPriceOpen);
                 setIsCategoryOpen(false);
@@ -141,13 +141,13 @@ const AllProducts = () => {
             </button>
 
             {isPriceOpen && (
-              <div className='absolute left-0 mt-2 w-56 bg-white border border-gray-300 text-sm text-gray-600 rounded-lg shadow-lg p-3 z-10'>
-                <p className='text-sm text-gray-700 mb-2'>Select Price Range</p>
+              <div className='absolute left-0 mt-2 w-56 bg-[#8c1018] border border-gray-300 text-sm text-gray-600 rounded-lg shadow-lg p-3 z-10'>
+                <p className='text-sm text-[white] mb-2'>Select Price Range</p>
                 <hr className='border border-gray-200 my-2' />
                 <div className='flex items-center gap-2'>
                   <input
                     type="number"
-                    className="border border-gray-300 px-2 py-1 w-20"
+                    className="border border-white text-white px-2 py-1 w-20"
                     placeholder="Min"
                     value={priceRange[0]}
                     onChange={(e) => setPriceRange([Number(e.target.value), priceRange[1]])}
@@ -155,7 +155,7 @@ const AllProducts = () => {
                   <span>-</span>
                   <input
                     type="number"
-                    className="border border-gray-300 px-2 py-1 w-20"
+                    className="border border-white text-white px-2 py-1 w-20"
                     placeholder="Max"
                     value={priceRange[1]}
                     onChange={(e) => setPriceRange([priceRange[0], Number(e.target.value)])}
@@ -169,7 +169,7 @@ const AllProducts = () => {
         {/* Sorting Dropdown */}
         <div className='relative dropdown'>
           <button 
-            className='border border-gray-300 text-gray-600 text-sm px-4 py-2 rounded-lg bg-white shadow-md cursor-pointer'
+            className='border border-gray-300 text-[white] text-sm px-4 py-2 rounded-lg bg-[#8c1018] shadow-md cursor-pointer hover:border hover:border-[#8c1018]'
             onClick={() => {
               setIsSortOpen(!isSortOpen);
               setIsCategoryOpen(false);
@@ -180,9 +180,9 @@ const AllProducts = () => {
           </button>
 
           {isSortOpen && (
-            <div className='absolute text-sm text-gray-600 right-0 mt-2 w-56 bg-white border border-gray-300 rounded-lg shadow-lg p-2 z-10'>
+            <div className='absolute text-sm text-[white] right-0 mt-2 w-56 bg-[#8c1018] border border-[#8c1018] rounded-lg shadow-lg p-2 z-10'>
               <p 
-                className={`p-2 cursor-pointer ${sortBy === 'priceLowHigh' ? 'bg-gray-200' : 'hover:bg-gray-200'}`}
+                className={`p-2 cursor-pointer ${sortBy === 'priceLowHigh' ? 'bg-[#560e13]' : 'hover:bg-[#560e13]'}`}
                 onClick={() => {
                   setSortBy('priceLowHigh');
                   setIsSortOpen(false);
@@ -191,7 +191,7 @@ const AllProducts = () => {
                 Price: Low to High
               </p>
               <p 
-                className={`p-2 cursor-pointer ${sortBy === 'priceHighLow' ? 'bg-gray-200' : 'hover:bg-gray-200'}`}
+                className={`p-2 cursor-pointer ${sortBy === 'priceHighLow' ? 'bg-[#560e13]' : 'hover:bg-[#560e13]'}`}
                 onClick={() => {
                   setSortBy('priceHighLow');
                   setIsSortOpen(false);
@@ -200,7 +200,7 @@ const AllProducts = () => {
                 Price: High to Low
               </p>
               <p 
-                className={`p-2 cursor-pointer ${sortBy === 'alphabetical' ? 'bg-gray-200' : 'hover:bg-gray-200'}`}
+                className={`p-2 cursor-pointer ${sortBy === 'alphabetical' ? 'bg-[#560e13]' : 'hover:bg-[#560e13]'}`}
                 onClick={() => {
                   setSortBy('alphabetical');
                   setIsSortOpen(false);
@@ -209,7 +209,7 @@ const AllProducts = () => {
                 Alphabetically: A to Z
               </p>
               <p 
-                className={`p-2 cursor-pointer ${sortBy === 'dateNewOld' ? 'bg-gray-200' : 'hover:bg-gray-200'}`}
+                className={`p-2 cursor-pointer ${sortBy === 'dateNewOld' ? 'bg-[#560e13]' : 'hover:bg-[#560e13]'}`}
                 onClick={() => {
                   setSortBy('dateNewOld');
                   setIsSortOpen(false);
@@ -218,7 +218,7 @@ const AllProducts = () => {
                 Date: New to Old
               </p>
               <p 
-                className={`p-2 cursor-pointer ${sortBy === 'dateOldNew' ? 'bg-gray-200' : 'hover:bg-gray-200'}`}
+                className={`p-2 cursor-pointer ${sortBy === 'dateOldNew' ? 'bg-[#560e13]' : 'hover:bg-[#560e13]'}`}
                 onClick={() => {
                   setSortBy('dateOldNew');
                   setIsSortOpen(false);
