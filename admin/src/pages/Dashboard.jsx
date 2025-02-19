@@ -1,12 +1,45 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ShoppingCart, Users, Package, CheckCircle, BarChart } from "lucide-react";
 import Widget from "../components/Widget";
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import axios from "axios";
+import { backendUrl } from "../App";
+import { Link } from "react-router-dom";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const Dashboard = () => {
+
+  const [users, setUsers] = useState([]);
+  const [orders, setOrders] = useState([]);
+
+  const fetchAllUsers = async() => {
+    try {
+      const response = await axios.get(backendUrl + '/api/user/allusers');
+      setUsers(response.data.users.slice(0, 5));
+    } catch (error) {
+      console.error("Error fetching users:", error.response?.data || error.message);
+    }
+  }
+
+  const fetchAllOrders = async() => {
+    try {
+      const response = await axios.post(backendUrl + '/api/order/list', {});
+      setOrders(response.data.orders.slice(0, 5));
+    } catch (error) {
+      console.error("error in fetching orders:", error.response?.data || error.message);
+    }
+  }
+
+  useEffect(() => {
+    fetchAllUsers();
+    fetchAllOrders();
+  }, []);
+
+  console.log(users);
+  console.log(orders);
+
   const doughnutOptions = { responsive: true, maintainAspectRatio: false, cutout: "70%" };
 
   const newCustomersData = {
@@ -82,6 +115,65 @@ const Dashboard = () => {
         <div className="bg-white h-85 p-4 rounded-lg shadow-lg">
           <h3 className="text-center font-semibold mb-4">Total Sales</h3>
           <Doughnut data={totalSalesData} options={doughnutOptions} />
+        </div>
+      </div>
+
+      {/* orders and user table  */}
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+
+        {/* orders table */}
+        <div className="bg-white p-4 rounded-lg shadow-lg">
+          <h3 className="text-lg font-semibold mb-4">Recent Orders</h3>
+          <table className="w-full border-collapse">
+            <thead>
+              <tr className="bg-gray-200">
+                <th className="p-2 text-left">Order ID</th>
+                <th className="p-2 text-left">Date</th>
+                <th className="p-2 text-left">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {orders.map((order) => (
+                <tr key={order._id} className="border-t">
+                  <td className="p-2">{order._id}</td>
+                  <td className="p-2">{new Date(order.createdAt).toLocaleDateString()}</td>
+                  <td className="p-2">
+                    <Link to={`/order/${order._id}`} className="text-blue-600 hover:underline">
+                      See Details
+                    </Link>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Users Table */}
+        <div className="bg-white p-4 rounded-lg shadow-lg">
+          <h3 className="text-lg font-semibold mb-4">Recent Users</h3>
+          <table className="w-full border-collapse">
+            <thead>
+              <tr className="bg-gray-200">
+                <th className="p-2 text-left">Email</th>
+                <th className="p-2 text-left">Joined</th>
+                <th className="p-2 text-left">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {users.map((user) => (
+                <tr key={user._id} className="border-t">
+                  <td className="p-2">{user.email}</td>
+                  <td className="p-2">{new Date(user.createdAt).toLocaleDateString()}</td>
+                  <td className="p-2">
+                    <Link to={`/user/${user._id}`} className="text-blue-600 hover:underline">
+                      See Details
+                    </Link>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>

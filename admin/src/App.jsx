@@ -13,6 +13,7 @@ import AllUsers from './pages/AllUsers'
 import SingleUser from './pages/SingleUser'
 import SingleProduct from './pages/SingleProduct'
 import Dashboard from './pages/Dashboard'
+import Banners from './pages/Banners'
 
 export const backendUrl = import.meta.env.VITE_BACKEND_URL
 export const currency = "Rs."
@@ -47,6 +48,7 @@ const App = () => {
                   <Route path='/users' element={ <AllUsers /> } />
                   <Route path='/user/:userId' element={ <SingleUser /> } />
                   <Route path='/product/:productId' element={ <SingleProduct /> } />
+                  <Route path='/banner' element={ <Banners /> } />
                 </Routes>
               </div>
             </div>
