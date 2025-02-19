@@ -2,25 +2,41 @@ import React, { useEffect, useState } from "react";
 import { ShoppingCart, Users, Package, CheckCircle, BarChart } from "lucide-react";
 import Widget from "../components/Widget";
 import { Bar, Doughnut } from "react-chartjs-2";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, ArcElement, Tooltip, Legend } from "chart.js";
 import axios from "axios";
 import { backendUrl } from "../App";
 import { Link } from "react-router-dom";
 
-ChartJS.register(ArcElement, Tooltip, Legend);
+ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Tooltip, Legend);
 
 const Dashboard = () => {
 
   const [users, setUsers] = useState([]);
   const [orders, setOrders] = useState([]);
   const [allOrders, setAllOrders] = useState([])
+  const [products, setProducts] = useState([])
+  const [totalUsers, setTotalUsers] = useState(0)
+  const [totalProducts, setTotalProducts] = useState(0);
 
   const fetchAllUsers = async() => {
     try {
       const response = await axios.get(backendUrl + '/api/user/allusers');
       setUsers(response.data.users.slice(0, 5));
+      setTotalUsers(response.data.users.length);
     } catch (error) {
       console.error("Error fetching users:", error.response?.data || error.message);
+    }
+  }
+
+  const fetchAllProducts = async() => {
+    try {
+      const response = await axios.get(backendUrl+'/api/product/list')
+      if(response.data.success) {
+        setProducts(response.data.products)
+        setTotalProducts(response.data.products.length);
+      }
+    } catch (error) {
+      console.log(error); 
     }
   }
 
@@ -37,6 +53,7 @@ const Dashboard = () => {
   useEffect(() => {
     fetchAllUsers();
     fetchAllOrders();
+    fetchAllProducts();
   }, []);
 
   // console.log(users);
@@ -46,35 +63,35 @@ const Dashboard = () => {
   const prepareChartData = () => {
     const today = new Date();
     const dates = [];
-    const orderCounts = []
-
-    for(let i = 29; i>= 0; i--) {
+    const orderCounts = new Array(30).fill(0);
+  
+    for (let i = 29; i >= 0; i--) {
       const date = new Date();
       date.setDate(today.getDate() - i);
-      const dateString = date.toISOString().split('T')[0];
+      const dateString = date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short' }).replace(' ', '-');
       dates.push(dateString);
-      orderCounts.push[0]
     }
-
+  
     allOrders.forEach(order => {
-      const orderDate = new Date(order.createdAt).toISOString().split('T')[0];
+      const orderDate = new Date(order.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short' }).replace(' ', '-');
       const index = dates.indexOf(orderDate);
-      if(index !== -1) {
+      if (index !== -1) {
         orderCounts[index]++;
       }
     });
-
+  
     return {
       labels: dates,
       datasets: [
         {
           label: "Number of Orders",
           data: orderCounts,
-          backgroundColor: '#8C1018'
-        }
-      ]
-    }
+          backgroundColor: '#8C1018',
+        },
+      ],
+    };
   };
+  
 
   const chartOptions = {
     responsive: true,
@@ -158,8 +175,8 @@ const Dashboard = () => {
         <Widget title="Orders Pending" value={125} icon={ShoppingCart} bgColor="from-blue-400 to-blue-600" link="/list" />
         <Widget title="Orders Processing" value={85} icon={Package} bgColor="from-yellow-400 to-yellow-600" link="/list" />
         <Widget title="Orders Completed" value={320} icon={CheckCircle} bgColor="from-green-400 to-green-600" link="/list" />
-        <Widget title="Total Users" value={1450} icon={Users} bgColor="from-indigo-400 to-indigo-600" link="/users" />
-        <Widget title="Total Products" value={320} icon={Package} bgColor="from-purple-400 to-purple-600" link="/list" />
+        <Widget title="Total Users" value={totalUsers} icon={Users} bgColor="from-indigo-400 to-indigo-600" link="/users" />
+        <Widget title="Total Products" value={totalProducts} icon={Package} bgColor="from-purple-400 to-purple-600" link="/list" />
         <Widget title="Total Sales" value="$15,200" icon={BarChart} bgColor="from-pink-400 to-pink-600" link="/list" />
       </div>
 
@@ -243,10 +260,10 @@ const Dashboard = () => {
       </div>
 
       {/* total sales in last 30 days */}
-      {/* <div className="bg-white p-4 rounded-lg shadow-lg mt-8">
+      <div className="bg-white p-4 rounded-lg shadow-lg mt-8">
         <h3 className="text-lg font-semibold mb-4">Orders in the Last 30 Days</h3>
         <Bar data={prepareChartData()} options={chartOptions} />
-      </div> */}
+      </div>
 
     </div>
   );
