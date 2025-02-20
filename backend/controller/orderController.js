@@ -2,6 +2,23 @@ import OrderModel from "../models/orderModel.js";
 import UserModel from "../models/userModel.js";
 import razorpay from "razorpay"
 import crypto from "crypto";
+import axios from "axios"
+
+//generate shiprocket token
+const getShiprocketToken = async() => {
+  try {
+    const response = await axios.post("https://apiv2.shiprocket.in/v1/external/auth/login", {
+      email: process.env.SHIPROCKET_EMAIL,
+      password: process.env.SHIPROCKET_PASSWORD,
+    })
+
+    return response.data.token;
+
+  } catch (error) {
+    console.error("Shiprocket Auth Error:", error.response?.data || error.message);
+    throw new Error("Failed to authenticate with Shiprocket");
+  }
+}
 
 const currency = "inr"
 
@@ -178,4 +195,134 @@ const updateStatus = async(req, res) => {
   }
 }
 
-export { placeOrder, allOrders, userOrders, updateStatus, placeOrderRazorpay, verifyRazorpay }
+// shiprocket functions
+const createShiprocketOrder = async(req, res) => {
+  try {
+    const { orderId } = req.body;
+
+    const order = await OrderModel.findById(orderId);
+    if(!order) {
+      return res.json({ success: false, message: "Order not found" });
+    }
+
+    const token = await getShiprocketToken();
+
+    const response = await axios.post(
+      "https://apiv2.shiprocket.in/v1/external/orders/create/adhoc",
+      {
+        order_id: order._id,
+        order_date: new Date().toISOString().split("T")[0], // Current date
+        pickup_location: "Primary",
+        billing_customer_name: order.shippingAddress.firstName,
+        billing_last_name: order.shippingAddress.lastName,
+        billing_address: order.shippingAddress.address,
+        billing_city: order.shippingAddress.city,
+        billing_pincode: order.shippingAddress.pinCode,
+        billing_state: order.shippingAddress.state,
+        billing_country: order.shippingAddress.country,
+        billing_email: "customer@example.com", // Update as per order details
+        billing_phone: order.shippingAddress.phone || "9876543210", // Add phone field in schema if missing
+        shipping_is_billing: true,
+        order_items: order.items.map((item) => ({
+          name: item.name,
+          sku: item._id,
+          units: item.quantity,
+          selling_price: item.price,
+          discount: 0,
+          tax: 0,
+          hsn: "6101",
+        })),
+        payment_method: order.paymentMethod === "Razorpay" ? "Prepaid" : "COD",
+        sub_total: order.amount,
+        length: 10, // Replace with actual package dimensions
+        breadth: 10,
+        height: 10,
+        weight: 1, // Replace with actual weight
+      },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+
+    order.shipment_id = response.data.shipment_id;
+    await order.save();
+
+    res.json({ success: true, message: "Order assigned to Shiprocket", shipment_id: response.data.shipment_id });
+
+  } catch (error) {
+    console.error("Error creating Shiprocket order:", error.response?.data || error.message);
+    res.json({ success: false, message: "Failed to create Shiprocket order" });
+  }
+};
+
+const generateAWB = async(req, res) => {
+  try {
+    const { orderId } = req.body;
+    const order = await OrderModel.findById(orderId);
+    if(!order || !order.shipment_id) {
+      return res.json({ success: false, message: "Invalid order or shipment not created" });
+    }
+
+    const token = await getShiprocketToken();
+
+    const response = await axios.post(
+      "https://apiv2.shiprocket.in/v1/external/courier/assign/awb",
+      { shipment_id: order.shipment_id },
+      { headers: { Authorization: `Bearer ${token}` } }
+    )
+
+    order.awb_code = response.data.awb_code;
+    await order.save();
+
+    res.json({ success: true, message: "AWB assigned", awb_code: response.data.awb_code });
+
+  } catch (error) {
+    console.error("Error generating AWB:", error.response?.data || error.message);
+    res.json({ success: false, message: "Failed to generate AWB" });
+  }
+}
+
+const initiatePickup = async(req, res) => {
+  try {
+    const { orderId } = req.body;
+    const order = await OrderModel.findById(orderId);
+    if(!order || !order.shipment_id) {
+      return res.json({ success: false, message: "Invalid order or shipment not created" });
+    }
+
+    const token = await getShiprocketToken();
+
+    const response = await axios.post(
+      "https://apiv2.shiprocket.in/v1/external/courier/generate/pickup",
+      { shipment_id: order.shipment_id },
+      { headers: { Authorization: `Bearer ${token}` } }
+    )
+
+    res.json({ success: true, message: "Pickup scheduled" });
+
+  } catch (error) {
+    console.error("Error initiating pickup:", error.response?.data || error.message);
+    res.json({ success: false, message: "Failed to initiate pickup" });
+  }
+}
+
+const trackOrder = async (req, res) => {
+  try {
+    const { awb_code } = req.body;
+    if (!awb_code) {
+      return res.json({ success: false, message: "AWB code is required" });
+    }
+
+    const token = await getShiprocketToken();
+
+    const response = await axios.get(
+      `https://apiv2.shiprocket.in/v1/external/courier/track/awb/${awb_code}`,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+
+    res.json({ success: true, tracking_data: response.data.tracking_data });
+  } catch (error) {
+    console.error("Error tracking order:", error.response?.data || error.message);
+    res.json({ success: false, message: "Failed to track order" });
+  }
+};
+
+export { placeOrder, allOrders, userOrders, updateStatus, placeOrderRazorpay, verifyRazorpay, createShiprocketOrder, generateAWB, initiatePickup, trackOrder }

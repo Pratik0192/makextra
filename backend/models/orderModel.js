@@ -8,7 +8,9 @@ const OrderSchema = new mongoose.Schema({
   billingAddress: {type: Object, required: true},
   status: {type: String, required: true, default: 'Order Placed'},
   paymentMethod: {type: String, required: true},
-  payment: {type: Boolean, required: true, default: false}
+  payment: {type: Boolean, required: true, default: false},
+  shipment_id: { type: String, default: null },  // ✅ Store Shiprocket shipment ID
+  awb_code: { type: String, default: null }  // ✅ Store Airway Bill (AWB) number
 },{timestamps: true})
 
 const OrderModel = mongoose.models.order || mongoose.model('order', OrderSchema);
