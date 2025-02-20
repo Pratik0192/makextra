@@ -84,8 +84,6 @@ const Checkout = () => {
     rzp.open();
   };
 
-  
-
   const onBillingChangeHandler = (event) => {
     const { name, value } = event.target;
     setBillingFormData((prev) => ({ ...prev, [name]: value }));

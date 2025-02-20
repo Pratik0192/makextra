@@ -73,16 +73,13 @@ const placeOrderRazorpay = async (req, res) => {
 
     const order = await razorpayInstance.orders.create(options);
 
-    res.json({ success: true, order }); // ✅ Send the order details to frontend
+    res.json({ success: true, order }); 
 
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: error.message });
   }
 };
-
-
-
 
 const verifyRazorpay = async (req, res) => {
   try {
@@ -91,19 +88,28 @@ const verifyRazorpay = async (req, res) => {
     // Generate expected signature
     const generatedSignature = crypto
       .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
-      .update(`${razorpay_order_id}|${razorpay_payment_id}`)
+      .update(`${razorpay_order_id}|${razorpay_payment_id}`) 
       .digest("hex");
 
     if (generatedSignature !== razorpay_signature) {
       return res.json({ success: false, message: "Invalid payment signature" });
     }
 
-    // Update order in database
+    // Fetch the actual order receipt
+    const orderInfo = await razorpayInstance.orders.fetch(razorpay_order_id);
+    console.log("Received Razorpay Order ID:", razorpay_order_id);
+    console.log("Stored Order Receipt:", orderInfo.receipt);
+
+    // Update order in database using receipt (which is the actual order _id)
     const updatedOrder = await OrderModel.findOneAndUpdate(
-      { _id: razorpay_order_id },
+      { _id: orderInfo.receipt }, // ✅ Use receipt instead
       { payment: true },
       { new: true }
     );
+
+    if (!updatedOrder) {
+      return res.json({ success: false, message: "Order not found" });
+    }
 
     await UserModel.findByIdAndUpdate(userId, { cartData: {} });
 
@@ -114,7 +120,6 @@ const verifyRazorpay = async (req, res) => {
     res.json({ success: false, message: error.message });
   }
 };
-
 
 //user order data for frontend
 const userOrders = async(req, res) => {
