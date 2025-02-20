@@ -85,13 +85,22 @@ const verifyRazorpay = async (req, res) => {
   try {
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature, userId } = req.body;
 
+    console.log("received payment verification request");
+    console.log("razorpay order id", razorpay_order_id);
+    console.log("razorpay payment id", razorpay_payment_id);
+    console.log("razorpay signature", razorpay_signature);
+    
     // Generate expected signature
     const generatedSignature = crypto
       .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
       .update(`${razorpay_order_id}|${razorpay_payment_id}`) 
       .digest("hex");
 
+    console.log("🔹 Generated Signature:", generatedSignature);
+    console.log("🔹 Provided Signature:", razorpay_signature);
+
     if (generatedSignature !== razorpay_signature) {
+      console.log("❌ Payment verification failed: Invalid signature");
       return res.json({ success: false, message: "Invalid payment signature" });
     }
 
@@ -100,6 +109,11 @@ const verifyRazorpay = async (req, res) => {
     console.log("Received Razorpay Order ID:", razorpay_order_id);
     console.log("Stored Order Receipt:", orderInfo.receipt);
 
+    if (!orderInfo.receipt) {
+      console.log("❌ Error: Order receipt (MongoDB Order ID) is missing in Razorpay order.");
+      return res.json({ success: false, message: "Order receipt is missing in payment data" });
+    }
+
     // Update order in database using receipt (which is the actual order _id)
     const updatedOrder = await OrderModel.findOneAndUpdate(
       { _id: orderInfo.receipt }, // ✅ Use receipt instead
@@ -107,12 +121,16 @@ const verifyRazorpay = async (req, res) => {
       { new: true }
     );
 
+    console.log("🔹 Updated Order in Database:", updatedOrder);
+
     if (!updatedOrder) {
+      console.log("❌ Error: No order found with the provided receipt ID.");
       return res.json({ success: false, message: "Order not found" });
     }
 
     await UserModel.findByIdAndUpdate(userId, { cartData: {} });
 
+    console.log("✅ Payment Verified and Order Updated Successfully!");
     res.json({ success: true, message: "Payment Successful", order: updatedOrder });
 
   } catch (error) {
