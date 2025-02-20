@@ -41,6 +41,51 @@ const Checkout = () => {
     setFormData(data => ({...data, [name] : value}))
   }
 
+  const initPay = (order, userId) => {  // Accept userId
+    if (!window.Razorpay) {
+      toast.error("Razorpay SDK not loaded");
+      return;
+    }
+
+    const options = {
+      key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+      amount: order.amount, // Razorpay amount is in paise
+      currency: order.currency,
+      name: "Order Payment",
+      description: "Order Payment",
+      order_id: order.id,
+      handler: async (response) => {
+        try {
+          const paymentData = {
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_signature: response.razorpay_signature,
+            userId: userId, // Send userId
+          };
+
+          const { data } = await axios.post(backendUrl + "/api/order/verifyrazorpay", paymentData, { headers: { token } });
+
+          if (data.success) {
+            navigate("/orders");
+            setCartItems({});
+            toast.success("Payment Successful!");
+          } else {
+            toast.error("Payment verification failed.");
+          }
+        } catch (error) {
+          console.error(error);
+          toast.error("Payment verification request failed.");
+        }
+      },
+      theme: { color: "#3399cc" },
+    };
+
+    const rzp = new window.Razorpay(options);
+    rzp.open();
+  };
+
+  
+
   const onBillingChangeHandler = (event) => {
     const { name, value } = event.target;
     setBillingFormData((prev) => ({ ...prev, [name]: value }));
@@ -87,7 +132,18 @@ const Checkout = () => {
             toast.error(response.data.message)
           }
           break;
-      
+          
+        case 'razorpay':
+          const responseRazorpay = await axios.post(backendUrl + '/api/order/razorpay', orderData, {headers: {token}})
+          if(responseRazorpay.data.success) {
+            console.log(responseRazorpay.data.order);
+            console.log(responseRazorpay.data); // Check if "order" exists
+
+            initPay(responseRazorpay.data.order, orderData.userId)
+          } else {
+            toast.error("failed to initialize payment")
+          }
+          break;
         default:
           break;
       }
@@ -99,7 +155,7 @@ const Checkout = () => {
   }
 
   useEffect(() => {
-    console.log("Updated Cart Items:", cartItems);
+    // console.log("Updated Cart Items:", cartItems);
     const tempData = Object.entries(cartItems).map(([itemId, quantity]) => ({
       _id: itemId,
       quantity,
