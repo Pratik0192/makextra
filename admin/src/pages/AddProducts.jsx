@@ -19,7 +19,7 @@ const AddProducts = () => {
   const [stock, setStock] = useState("");
   const [product_details, setProductDetails] = useState("");
   const [category, setCategory] = useState("");
-  const [rating, setRating] = useState("")
+  //const [rating, setRating] = useState("")
 
   const [categories, setCategories] = useState([]);
   const [newCategory, setNewCategory] = useState(false);
@@ -58,7 +58,7 @@ const AddProducts = () => {
       formData.append("stock", stock);
       formData.append("product_details", product_details);
       formData.append("category", category);
-      formData.append("rating", rating);
+      //formData.append("rating", rating);
 
       image1 && formData.append("image1", image1);
       image2 && formData.append("image2", image2);
@@ -77,7 +77,7 @@ const AddProducts = () => {
         setStock("");
         setProductDetails("");
         setCategory("")
-        setRating("")
+        //setRating("")
         setImage1(false)
         setImage2(false)
         setImage3(false)
@@ -178,10 +178,10 @@ const AddProducts = () => {
         </div>
       )}
 
-      <div className="w-full">
+      {/* <div className="w-full">
         <p className="mb-2">Rating</p>
         <input onChange={(e) => setRating(e.target.value)} value={rating} className='w-full max-w-[500px] px-3 py-2' type="text" placeholder='rating' required />
-      </div>
+      </div> */}
 
 
       <button className='w-28 py-3 mt-4 bg-[#8c1018] text-white' type='submit'>ADD</button>
