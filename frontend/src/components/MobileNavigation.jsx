@@ -32,10 +32,10 @@ const MobileNavigation = ({ menuOpen, setMenuOpen }) => {
         initial={{x: "-100%"}}
         animate={{ x: menuOpen ? 0 : "-100%" }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
-        className="fixed top-15 left-0 pt-4 w-screen h-screen bg-gradient-to-r bg-[#560e13] to-[#8c1018] shadow-md z-50 transition-transform duration-300 ease-in-out flex flex-col"
+        className="fixed top-31 left-0 pt-4 w-screen h-screen bg-gradient-to-r bg-[#560e13] to-[#8c1018] shadow-md z-50 transition-transform duration-300 ease-in-out flex flex-col"
       >
         {/* Navigation Links */}
-        <ul className="flex-[4] px-6 space-y-6 text-md font-medium overflow-y-auto ">
+        <ul className="flex-[3.5] px-6 space-y-6 text-md font-medium overflow-y-auto ">
           <li>
             <Link to="/" className="block text-[#E9B466] hover:text-[#FFC877]" onClick={() => setMenuOpen(false)}>
               Home
@@ -43,7 +43,7 @@ const MobileNavigation = ({ menuOpen, setMenuOpen }) => {
           </li>
           <li>
             <Link to="/allproducts" className="block text-[#e9b466] hover:text-[#ffc877]" onClick={() => setMenuOpen(false)}>
-              New Arrivals
+              All Products
             </Link>
           </li>
           <li>
@@ -61,15 +61,15 @@ const MobileNavigation = ({ menuOpen, setMenuOpen }) => {
               Support <span className="text-[#e9b466]">→</span>
             </Link>
           </li>
-          <li>
+          {/* <li>
             <Link to="/sale" className="block text-[#e9b466] hover:text-[#ffc877]" onClick={() => setMenuOpen(false)}>
               Sale
             </Link>
-          </li>
+          </li> */}
         </ul>
 
         {/* bottom part*/}
-        <div className="flex-[1] bg-[#f5f6f6] py-6 px-6">
+        <div className="flex-[1.5] bg-[#f5f6f6] py-6 px-6">
           {/* Account Section */}
           <div className="mb-6">
             {token ? (

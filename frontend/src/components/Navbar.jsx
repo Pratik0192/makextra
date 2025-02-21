@@ -73,7 +73,6 @@ const Navbar = () => {
               {token &&
                 <div className='group-hover:block hidden absolute dropdown-menu right-0 pt-4'>
                   <div className="flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded">
-                    <p className="cursor-pointer hover:text-black">My Profile</p>
                     <p onClick={logout} className='cursor-pointer hover:text-black'>Logout</p>
                     <p onClick={()=>navigate('/orders')} className="cursor-pointer hover:text-black">Orders</p>
                   </div>
@@ -110,17 +109,17 @@ const Navbar = () => {
               to="/allproducts"
               className={`cursor-pointer text-white hover:text-[#FFC877] relative after:content-[''] after:absolute after:left-0 after:bottom-[-2px] after:w-0 after:h-[0.5px] after:bg-[white] after:transition-all after:duration-300 hover:after:w-full ${location.pathname === '/allproducts' ? "text-[#FFC877] after:w-full" : "hover:text-[#FFC877]"} `}
             >
-              New Arrivals
+              All Products
             </Link>
           </li>
-          <li>
+          {/* <li>
             <Link
               to="/collections"
               className={`cursor-pointer text-white hover:text-[#FFC877] relative after:content-[''] after:absolute after:left-0 after:bottom-[-2px] after:w-0 after:h-[0.5px] after:bg-[white] after:transition-all after:duration-300 hover:after:w-full ${location.pathname === '/collections' ? "text-[#FFC877] after:w-full" : "hover:text-[#FFC877]"} `}
             >
               Collections
             </Link>
-          </li>
+          </li> */}
           <li>
             <Link
               to="/track-order"
@@ -162,14 +161,14 @@ const Navbar = () => {
               </div>
             )}
           </li>
-          <li>
+          {/* <li>
             <Link
               to="/sale"
               className={`cursor-pointer text-white hover:text-[#FFC877] relative after:content-[''] after:absolute after:left-0 after:bottom-[-2px] after:w-0 after:h-[0.5px] after:bg-[white] after:transition-all after:duration-300 hover:after:w-full ${location.pathname === '/sale' ? "text-[#FFC877] after:w-full" : "hover:text-[#FFC877]"} `}
             >
               Sale
             </Link>
-          </li>
+          </li> */}
         </ul>
 
         {/* Mobile Navigation Menu (Hidden by default) */}
