@@ -210,7 +210,7 @@ const Dashboard = () => {
           <div className="overflow-x-auto"> {/* Makes table scrollable on small screens */}
             <table className="w-full border-collapse">
               <thead>
-                <tr className="bg-gray-200">
+                <tr className="bg-[#8c1018] text-white">
                   <th className="p-2 text-left whitespace-nowrap">Order ID</th>
                   <th className="p-2 text-left whitespace-nowrap">Date</th>
                   <th className="p-2 text-left whitespace-nowrap">Actions</th>
@@ -240,7 +240,7 @@ const Dashboard = () => {
           <div className="overflow-x-auto">  {/* Add this div for responsiveness */}
             <table className="w-full border-collapse">
               <thead>
-                <tr className="bg-gray-200">
+                <tr className="bg-[#8c1018] text-white">
                   <th className="p-2 text-left whitespace-nowrap">Email</th>
                   <th className="p-2 text-left whitespace-nowrap">Joined</th>
                   <th className="p-2 text-left whitespace-nowrap">Actions</th>

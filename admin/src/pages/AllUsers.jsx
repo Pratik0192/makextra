@@ -24,7 +24,7 @@ const AllUsers = () => {
       <h2 className="text-2xl font-semibold mb-4">All Users</h2>
       <div className="overflow-x-auto">
         <table className="w-full border-collapse border border-gray-300">
-          <thead className="bg-gray-800 text-white">
+          <thead className="bg-[#8c1018] text-white">
             <tr>
               <th className="p-3 border border-gray-300">#</th>
               <th className="p-3 border border-gray-300">User ID</th>
