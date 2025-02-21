@@ -53,8 +53,8 @@ const BestSellers = () => {
 
         {/* Product Carousel */}
         <motion.div
-          initial="hidden"
-          whileInView="visible"
+          initial="false"
+          animate="visible"
           viewport={{ once: true, amount: 0.2 }}
           ref={carouselRef}
           className="flex gap-4 overflow-x-auto scroll-smooth hide-scrollbar px-2"

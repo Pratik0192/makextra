@@ -22,17 +22,21 @@ const KurtiCollection = () => {
     <div className='mt-10 px-2 sm:px-4 md:px-8 lg:px-16 xl:px-32 '>
       <Title text={'Kurtis Collection'} />
       <motion.div 
-        initial="hidden"
-        whileInView="visible"
+        initial="false"
+        animate="visible"
         viewport={{ once: true, amount: 0.2 }}
         className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1"
       >
         {
-          products.map((item, index) => (
-            <motion.div key={index} variants={itemVariants} custom={index}>
-              <ProductItem product={item} />
-            </motion.div>
-          ))
+          products.length > 0 ? (
+            products.map((item, index) => (
+              <motion.div key={item._id} variants={itemVariants} custom={index}>
+                <ProductItem product={item} />
+              </motion.div>
+            ))
+          ) : (
+            <p className="text-center text-gray-500">Loading products...</p>
+          )
         }
       </motion.div>
       <div className='flex items-center justify-center mt-4'>
