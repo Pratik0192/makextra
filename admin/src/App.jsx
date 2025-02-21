@@ -21,6 +21,7 @@ export const currency = "Rs."
 const App = () => {
 
   const [token, setToken] = useState(localStorage.getItem('token') ? localStorage.getItem('token') : '');
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
 
   useEffect(() => {
     localStorage.setItem('token', token);
@@ -35,11 +36,11 @@ const App = () => {
           <Login setToken={setToken} />
         :
           <>
-            <Navbar setToken={setToken} />
+            <Navbar setToken={setToken} setIsMobileOpen={setIsMobileOpen} />
             <hr />
-            <div className="flex flex-grow">
-              <Sidebar />
-              <div className="w-[70%] mx-auto ml-[max(5vw, 25px)] my-8 text-gray-600 text-base ">
+            <div className="flex flex-grow bg-[#F2F3F8]">
+              <Sidebar isMobileOpen={isMobileOpen} setIsMobileOpen={setIsMobileOpen} />
+              <div className="w-[85%] md:w-[70%] mx-auto md:ml-[20rem] my-8 text-gray-600 text-base">
                 <Routes>
                   <Route path='/' element={ <Dashboard /> } />
                   <Route path='/add' element={ <AddProducts /> } />

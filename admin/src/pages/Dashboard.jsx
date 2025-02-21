@@ -169,7 +169,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="container mx-auto p-6">
+    <div className="container mx-auto md:p-6">
       {/* Widgets */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <Widget title="Orders Pending" value={125} icon={ShoppingCart} bgColor="from-blue-400 to-blue-600" link="/list" />
@@ -205,58 +205,64 @@ const Dashboard = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
 
         {/* orders table */}
-        <div className="bg-white p-4 rounded-lg shadow-lg">
+        <div className="bg-white p-4 rounded-lg shadow-lg overflow-hidden">
           <h3 className="text-lg font-semibold mb-4">Recent Orders</h3>
-          <table className="w-full border-collapse">
-            <thead>
-              <tr className="bg-gray-200">
-                <th className="p-2 text-left">Order ID</th>
-                <th className="p-2 text-left">Date</th>
-                <th className="p-2 text-left">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {orders.map((order) => (
-                <tr key={order._id} className="border-t">
-                  <td className="p-2">{order._id}</td>
-                  <td className="p-2">{new Date(order.createdAt).toLocaleDateString()}</td>
-                  <td className="p-2">
-                    <Link to={`/order/${order._id}`} className="text-blue-600 hover:underline">
-                      See Details
-                    </Link>
-                  </td>
+          <div className="overflow-x-auto"> {/* Makes table scrollable on small screens */}
+            <table className="w-full border-collapse">
+              <thead>
+                <tr className="bg-gray-200">
+                  <th className="p-2 text-left whitespace-nowrap">Order ID</th>
+                  <th className="p-2 text-left whitespace-nowrap">Date</th>
+                  <th className="p-2 text-left whitespace-nowrap">Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {orders.map((order) => (
+                  <tr key={order._id} className="border-t">
+                    <td className="p-2">{order._id}</td>
+                    <td className="p-2">{new Date(order.createdAt).toLocaleDateString()}</td>
+                    <td className="p-2">
+                      <Link to={`/order/${order._id}`} className="text-blue-600 hover:underline">
+                        See Details
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
 
+
         {/* Users Table */}
-        <div className="bg-white p-4 rounded-lg shadow-lg">
+        <div className="bg-white p-4 rounded-lg shadow-lg overflow-hidden">
           <h3 className="text-lg font-semibold mb-4">Recent Users</h3>
-          <table className="w-full border-collapse">
-            <thead>
-              <tr className="bg-gray-200">
-                <th className="p-2 text-left">Email</th>
-                <th className="p-2 text-left">Joined</th>
-                <th className="p-2 text-left">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {users.map((user) => (
-                <tr key={user._id} className="border-t">
-                  <td className="p-2">{user.email}</td>
-                  <td className="p-2">{new Date(user.createdAt).toLocaleDateString()}</td>
-                  <td className="p-2">
-                    <Link to={`/user/${user._id}`} className="text-blue-600 hover:underline">
-                      See Details
-                    </Link>
-                  </td>
+          <div className="overflow-x-auto">  {/* Add this div for responsiveness */}
+            <table className="w-full border-collapse">
+              <thead>
+                <tr className="bg-gray-200">
+                  <th className="p-2 text-left whitespace-nowrap">Email</th>
+                  <th className="p-2 text-left whitespace-nowrap">Joined</th>
+                  <th className="p-2 text-left whitespace-nowrap">Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {users.map((user) => (
+                  <tr key={user._id} className="border-t">
+                    <td className="p-2">{user.email}</td>
+                    <td className="p-2">{new Date(user.createdAt).toLocaleDateString()}</td>
+                    <td className="p-2">
+                      <Link to={`/user/${user._id}`} className="text-blue-600 hover:underline">
+                        See Details
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
+
       </div>
 
       {/* total sales in last 30 days */}

@@ -20,7 +20,7 @@ const AllUsers = () => {
   }, []);
 
   return (
-    <div className="p-4">
+    <div className="p-1 md:p-4">
       <h2 className="text-2xl font-semibold mb-4">All Users</h2>
       <div className="overflow-x-auto">
         <table className="w-full border-collapse border border-gray-300">

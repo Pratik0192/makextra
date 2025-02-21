@@ -66,13 +66,13 @@ const Banners = () => {
   };
 
   return (
-    <div className="container mx-auto p-6">
+    <div className="container mx-auto p-1 md:p-4">
       <h2 className="text-xl font-bold mb-4">Manage Banners</h2>
 
       {/* Upload Banner */}
       <div className="bg-white p-4 rounded-lg shadow-md mb-6">
         <h3 className="font-semibold mb-2">Upload New Banner</h3>
-        <input type="file" accept="image/*" onChange={handleFileChange} className="mb-2" />
+        <input type="file" accept="image/*" onChange={handleFileChange} className="mb-2 w-50 md:w-80 " />
         {preview && <img src={preview} alt="Preview" className="h-32 mt-2 rounded-lg shadow-md" />}
         <button
           onClick={handleUpload}

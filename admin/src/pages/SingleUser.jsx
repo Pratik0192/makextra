@@ -77,17 +77,20 @@ const SingleUser = () => {
           <div className="space-y-3">
             {orders.map((order) => (
               <div key={order._id} className="p-4 border rounded-lg shadow-sm bg-gray-50 flex justify-between items-center">
-                <div>
-                  <p><strong>Order ID:</strong> {order._id}</p>
-                  <p><strong>Order Date:</strong> {moment(order.createdAt).format('DD MMM YYYY')}</p>
-                  <p><strong>Price:</strong> ₹{order.amount}</p>
+                <div className='flex flex-col md:flex-row gap-2 md:gap-75'>
+                  <div>
+                    <p><strong>Order ID:</strong> {order._id}</p>
+                    <p><strong>Order Date:</strong> {moment(order.createdAt).format('DD MMM YYYY')}</p>
+                    <p><strong>Price:</strong> ₹{order.amount}</p>
+                  </div>
+                  <button 
+                    className="px-4 py-2 h-10 bg-[#8C1018] text-white rounded-lg hover:bg-[#6B0C13] transition"
+                    onClick={() => alert(`Order ID: ${order._id}`)} // Placeholder for "See Details" action
+                  >
+                    See Details
+                  </button>
                 </div>
-                <button 
-                  className="px-4 py-2 bg-[#8C1018] text-white rounded-lg hover:bg-[#6B0C13] transition"
-                  onClick={() => alert(`Order ID: ${order._id}`)} // Placeholder for "See Details" action
-                >
-                  See Details
-                </button>
+                
               </div>
             ))}
           </div>

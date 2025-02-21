@@ -92,7 +92,7 @@ const SingleProduct = () => {
   }
 
   return (
-    <div className="max-w-4xl mx-auto mt-10 p-6 bg-white shadow-2xl rounded-lg">
+    <div className="max-w-4xl mx-auto mt-1 md:mt-10 p-6 bg-white shadow-2xl rounded-lg">
       <h2 className="text-2xl font-semibold mb-4">Edit Product</h2>
       <div className="grid grid-cols-2 gap-4">
         <div>
