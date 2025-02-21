@@ -43,7 +43,7 @@ const Login = () => {
         <p className='hover:underline underline-offset-4'>Forgot your Password?</p>
         <Link className='hover:undeline underline-offset-4' to='/register'>Create Account</Link>
       </div>
-      <button className=' rounded-md cursor-pointer w-full text-white bg-[#DE3163] px-8 py-2'>Sign In</button>
+      <button className=' rounded-md cursor-pointer w-full text-white bg-[#8C1018] px-8 py-2'>Sign In</button>
     </form>
   )
 }

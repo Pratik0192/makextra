@@ -45,7 +45,7 @@ const Register = () => {
       <div className="w-full flex justify-between text-sm text-gray-600">
         <Link className='hover:undeline underline-offset-4' to='/login'>Already have an account?</Link>
       </div>
-      <button className=' rounded-md cursor-pointer w-full text-white bg-[#DE3163] px-8 py-2'>Register</button>
+      <button className=' rounded-md cursor-pointer w-full text-white bg-[#8C1018] px-8 py-2'>Register</button>
     </form>
   )
 }
