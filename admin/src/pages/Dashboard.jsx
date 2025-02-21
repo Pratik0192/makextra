@@ -182,19 +182,19 @@ const Dashboard = () => {
 
       {/* Doughnut Charts */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
-        <div className="bg-white h-85 p-4 rounded-lg shadow-lg">
+        <div className="bg-white h-100 md:h-75 p-4 rounded-lg shadow-lg">
           <h3 className="text-center font-semibold mb-4">New Customers</h3>
           <Doughnut data={newCustomersData} options={doughnutOptions} />
         </div>
-        <div className="bg-white h-85 p-4 rounded-lg shadow-lg">
+        <div className="bg-white h-100 md:h-75 p-4 rounded-lg shadow-lg">
           <h3 className="text-center font-semibold mb-4">Total Customers</h3>
           <Doughnut data={totalCustomersData} options={doughnutOptions} />
         </div>
-        <div className="bg-white h-85 p-4 rounded-lg shadow-lg">
+        <div className="bg-white h-100 md:h-75 p-4 rounded-lg shadow-lg">
           <h3 className="text-center font-semibold mb-4">Sales Last 30 Days</h3>
           <Doughnut data={salesLast30DaysData} options={doughnutOptions} />
         </div>
-        <div className="bg-white h-85 p-4 rounded-lg shadow-lg">
+        <div className="bg-white h-100 md:h-75 p-4 rounded-lg shadow-lg">
           <h3 className="text-center font-semibold mb-4">Total Sales</h3>
           <Doughnut data={totalSalesData} options={doughnutOptions} />
         </div>
