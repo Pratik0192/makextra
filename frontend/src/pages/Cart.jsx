@@ -30,6 +30,8 @@ const Cart = () => {
       </div>
     );
   }
+  console.log(products);
+  
 
   return (
     <div className="pt-10 px-2 sm:px-4 md:px-8 lg:px-16 xl:px-32 ">
@@ -40,59 +42,64 @@ const Cart = () => {
         </Link>
       </div>
       <div>
-      {
-        cartData.map((item, index) => {
-          const productData = products.find((product) => product._id === item._id);
-          return (
-            <div 
-              key={index} 
-              className="py-3 px-2 border-b-2 border-gray-200 text-gray-700 grid grid-cols-1 sm:grid-cols-[4fr_2fr_0.5fr] items-center gap-4 w-full"
-            >
-              {/* Product Info */}
-              <div className="flex items-start gap-4 flex-wrap">
-                <img className="w-14 sm:w-24" src={productData.images[0]} alt="" />
-                <div className="w-full sm:w-auto">
-                  <p className="text-xs md:text-sm font-medium">{productData.name}</p>
-                  <p className="text-gray-500 mt-1">{currency} {productData.discounted_price}</p>
-                </div>
-              </div>
+      {cartData.map((item, index) => {
+  const productData = products.find((product) => product._id === item._id);
 
-              {/* Quantity & Delete */}
-              <div className="flex items-center gap-2 sm:gap-3">
-                <input 
-                  type="number"
-                  min={1}
-                  value={item.quantity}
-                  onChange={(e) => {
-                    const newQuantity = Number(e.target.value);
-                    if (newQuantity > 0) {
-                      setCartData((prev) =>
-                        prev.map((cartItem) =>
-                          cartItem._id === item._id ? { ...cartItem, quantity: newQuantity } : cartItem
-                        )
-                      );
-                      updateQuantity(item._id, newQuantity);
-                    }
-                  }}
-                  className="border max-w-12 sm:max-w-20 px-1 sm:px-2 py-1"
-                />
-                <Trash2
-                  onClick={() => {
-                    setCartData((prev) => prev.filter((cartItem) => cartItem._id !== item._id));
-                    updateQuantity(item._id, 0);
-                  }}
-                  className="w-5 h-5 text-red-500 cursor-pointer hover:text-red-700 transition-colors"
-                />
-              </div>
+  if (!productData) {
+    console.warn("Product not found for ID:", item._id);
+    return null; // Skip rendering if the product is missing
+  }
 
-              {/* Price */}
-              <div className="text-center sm:text-left">
-                <p className="text-sm">{currency} {productData.discounted_price * item.quantity}</p>
-              </div>
-            </div>
-          )
-        })
-      }
+  return (
+    <div 
+      key={index} 
+      className="py-3 px-2 border-b-2 border-gray-200 text-gray-700 grid grid-cols-1 sm:grid-cols-[4fr_2fr_0.5fr] items-center gap-4 w-full"
+    >
+      {/* Product Info */}
+      <div className="flex items-start gap-4 flex-wrap">
+        <img className="w-14 sm:w-24" src={productData.images?.[0] || ""} alt={productData.name || "Product"} />
+        <div className="w-full sm:w-auto">
+          <p className="text-xs md:text-sm font-medium">{productData.name}</p>
+          <p className="text-gray-500 mt-1">{currency} {productData.discounted_price}</p>
+        </div>
+      </div>
+
+      {/* Quantity & Delete */}
+      <div className="flex items-center gap-2 sm:gap-3">
+        <input 
+          type="number"
+          min={1}
+          value={item.quantity}
+          onChange={(e) => {
+            const newQuantity = Number(e.target.value);
+            if (newQuantity > 0) {
+              setCartData((prev) =>
+                prev.map((cartItem) =>
+                  cartItem._id === item._id ? { ...cartItem, quantity: newQuantity } : cartItem
+                )
+              );
+              updateQuantity(item._id, newQuantity);
+            }
+          }}
+          className="border max-w-12 sm:max-w-20 px-1 sm:px-2 py-1"
+        />
+        <Trash2
+          onClick={() => {
+            setCartData((prev) => prev.filter((cartItem) => cartItem._id !== item._id));
+            updateQuantity(item._id, 0);
+          }}
+          className="w-5 h-5 text-red-500 cursor-pointer hover:text-red-700 transition-colors"
+        />
+      </div>
+
+      {/* Price */}
+      <div className="text-center sm:text-left">
+        <p className="text-sm">{currency} {productData.discounted_price * item.quantity}</p>
+      </div>
+    </div>
+  );
+})}
+
 
       </div>
       <div className="flex justify-end my-20">
