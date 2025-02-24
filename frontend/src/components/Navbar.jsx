@@ -29,7 +29,7 @@ const Navbar = () => {
   return (
     <>
       {showSearch && <Searchbar /> }
-      <nav className={`bg-[#8c1018] py-4 px-6 md:px-20 ${showSearch ? '' : 'sticky top-0 z-50'}`}>
+      <nav className={`bg-[#8c1018] py-4 px-6 md:px-20 ${showSearch ? '' : 'sticky top-11 z-50'}`}>
         {/* Top Section */}
         <div className="flex justify-between items-center w-full">
           {/* Hamburger Icon (Visible only on Mobile) */}

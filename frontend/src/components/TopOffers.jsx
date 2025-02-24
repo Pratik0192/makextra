@@ -28,40 +28,43 @@ const TopOffers = () => {
   };
 
   return (
-    <div className="relative bg-gradient-to-b from-[#560e13] to-[#8c1018] text-white py-2 md:py-4 flex items-center justify-center overflow-hidden">
-      {/* Left Button */}
-      <button 
-        onClick={handlePrev} 
-        className="absolute left-4 md:left-18 text-white hover:text-gray-300 transition duration-300"
-      >
-        <ChevronLeft size={16} />
-      </button>
-
-      {/* Sliding Text Container */}
-      <div className="w-full overflow-hidden flex justify-center">
-        <div
-          className="flex transition-transform duration-500 ease-in-out"
-          style={{ transform: `translateX(-${currentIndex * 100}%)`, width: `${featureNames.length * 100}%` }}
+    <div className="flex items-center sticky top-0 z-50 w-full">
+      <div className="relative bg-gradient-to-b from-[#560e13] to-[#8c1018] text-white py-2 md:py-4 flex items-center justify-center w-full">
+        {/* Left Button */}
+        <button 
+          onClick={handlePrev} 
+          className="absolute left-4 md:left-18 text-white hover:text-gray-300 transition duration-300"
         >
-          {featureNames.map((feature, index) => (
-            <div 
-              key={index} 
-              className="w-full flex-shrink-0 text-center text-sm px-4"
-            >
-              {feature}
-            </div>
-          ))}
-        </div>
-      </div>
+          <ChevronLeft size={16} />
+        </button>
 
-      {/* Right Button */}
-      <button 
-        onClick={handleNext} 
-        className="absolute right-4 md:right-18 text-white hover:text-gray-300 transition duration-300"
-      >
-        <ChevronRight size={16} />
-      </button>
+        {/* Sliding Text Container */}
+        <div className="w-full overflow-hidden flex justify-center">
+          <div
+            className="flex transition-transform duration-500 ease-in-out"
+            style={{ transform: `translateX(-${currentIndex * 100}%)`, width: `${featureNames.length * 100}%` }}
+          >
+            {featureNames.map((feature, index) => (
+              <div 
+                key={index} 
+                className="w-full flex-shrink-0 text-center text-sm px-4"
+              >
+                {feature}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Right Button */}
+        <button 
+          onClick={handleNext} 
+          className="absolute right-4 md:right-18 text-white hover:text-gray-300 transition duration-300"
+        >
+          <ChevronRight size={16} />
+        </button>
+      </div>
     </div>
+    
   );
 };
 
