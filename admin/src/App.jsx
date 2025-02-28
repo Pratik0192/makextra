@@ -40,7 +40,7 @@ const App = () => {
             <hr />
             <div className="flex flex-grow bg-[#F2F3F8]">
               <Sidebar isMobileOpen={isMobileOpen} setIsMobileOpen={setIsMobileOpen} />
-              <main className="w-[85%] md:w-[70%] mx-auto md:ml-[20rem] lg:ml-[30rem] my-8 text-gray-600 text-base">
+              <main className="w-[85%] md:w-[70%] mx-auto md:ml-[20rem] 3xl:ml-[30rem] my-8 text-gray-600 text-base">
                 <Routes>
                   <Route path='/' element={ <Dashboard /> } />
                   <Route path='/add' element={ <AddProducts /> } />
